@@ -1,0 +1,78 @@
+{
+  "name": "sebsept/ps_dev_base",
+  "description": "Tools for quality Prestashop Module development.",
+  "minimum-stability": "stable",
+  "license": "AFL-3.0",
+  "authors": [
+    {
+      "name": "Sébastien Monterisi",
+      "email": "contact@seb7.fr"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "SebSept\\PsDevToolsPlugin\\": "src/"
+    }
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/SebSept/autoindex",
+      "package": {}
+
+    }
+  ],
+  "require": {
+    "composer-plugin-api": "^2.0",
+    "php": ">=7.2.0",
+    "ext-json": "*",
+    "prestashop/php-dev-tools": "3.*",
+    "phpstan/phpstan": "^0.12.54",
+    "prestashop/autoindex": "1.1.0",
+    "roave/security-advisories": "dev-latest",
+    "symfony/var-dumper": "^5.1",
+    "symfony/console": "^5.1",
+    "phpro/grumphp": "^1.1",
+    "composer/composer": "^2.0",
+    "symfony/yaml": "^5.1"
+  },
+  "require-dev": {
+    "composer/composer": "^2.0"
+
+  },
+  "config": {
+    "preferred-install": "dist",
+    "optimize-autoloader": true,
+    "prepend-autoloader": false
+  },
+  "type": "composer-plugin",
+  "extra": {
+    "class" : "SebSept\\PsDevToolsPlugin"
+  },
+  "scripts": {
+    "check": [
+      "grumphp run --ansi"
+    ],
+    "license": "header-stamp --license=dev_src/license_header.txt --exclude=vendor --extensions=php,js,css,scss,tpl,html.twig,vue",
+    "php-cs": "php-cs-fixer fix",
+    "phpstan": [
+      "echo edit composer.json. remove this line. replace '/path/to/prestashop/' by a real local path. && exit 1",
+      "@putenv _PS_ROOT_DIR_=/path/to/prestashop/",
+      "phpstan analyse"
+    ],
+    "add-index": [
+      "autoindex --exclude=vendor",
+      "@license"
+    ],
+    "index": "@add-index"
+  },
+  "scripts-descriptions": {
+    "check": "Start scripts triggered before a commit. Use it as often as needed :)",
+    "php-cs": "fix php formating using php-cs-fixer (php-cs-fix fix)",
+    "license": "Fix license header in files.",
+    "post-create-project-cmd": "Launched after project create. You are not supposed to use it anymore. (This description is not displayed.)"
+  },
+  "bin": [
+    "dev_src/bin/devtools_installer"
+  ]
+}
