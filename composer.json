@@ -17,12 +17,11 @@
   "require": {
     "composer-plugin-api": "^2.0",
     "php": ">=7.2.0",
-    "ext-json": "*",
-    "prestashop/php-dev-tools": "3.*"
+    "ext-json": "*"
   },
   "require-dev": {
-    "composer/composer": "^2.0"
-
+    "composer/composer": "^2.0",
+    "phpstan/phpstan": "^0.12.83"
   },
   "config": {
     "preferred-install": "dist"
