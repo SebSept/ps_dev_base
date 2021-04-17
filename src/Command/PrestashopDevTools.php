@@ -7,9 +7,11 @@ namespace SebSept\PsDevToolsPlugin\Command;
 
 use Exception;
 use RuntimeException;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Process;
 
 final class PrestashopDevTools extends PsDevToolsBaseCommand
 {
@@ -67,23 +69,47 @@ final class PrestashopDevTools extends PsDevToolsBaseCommand
 
     public function getPackageVersionConstraint(): string
     {
-        return '3.*';
+        return '4.*';
     }
 
     public function isToolConfigured(): bool
     {
-        trigger_error('not implemented.'.__FUNCTION__);
+        $this->io->error('a terminer '.__FUNCTION__.__FILE__);
+        $configured =  file_exists(getcwd().'/phpstan.neon');
+        $configured
+            ? $this->io->info("{$this->getPackageName()} is already configured")
+            : $this->io->info("{$this->getPackageName()} not configured");
 
-        return true;
+        return $configured;
     }
 
     public function configureTool(): void
     {
-        trigger_error('not implemented.'.__FUNCTION__);
+        $this->io->write("Configuration of {$this->getPackageName()} : ",false);
+        $installPhpStanConfiguration = new Process(['php','vendor/bin/prestashop-coding-standards','phpstan:init', '--dest', getcwd()]);
+        $installPhpStanConfiguration->start();
+        $installPhpStanConfiguration->wait();
+        if(!$installPhpStanConfiguration->isSuccessful()) {
+            $this->io->error('failed !');
+            throw new RuntimeException("{$this->getPackageName()} configuration : {$installPhpStanConfiguration->getErrorOutput()}");
+        }
+        $this->io->write('<bg=green>successful</bg=green>');
     }
 
     public function runTool(): void
     {
-        trigger_error('not implemented.'.__FUNCTION__);
+        $this->getApplication()->find('run-script')->run(
+            new ArrayInput([
+                'script' => $this->getScriptName(),
+            ]),
+            $this->output
+        );
     }
+
+    public function getScriptName(): string
+    {
+        return 'phpstan';
+    }
+
+
 }
