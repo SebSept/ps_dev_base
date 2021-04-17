@@ -8,6 +8,7 @@ namespace SebSept\PsDevToolsPlugin\Command;
 use Exception;
 use RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 final class PrestashopDevTools extends PsDevToolsBaseCommand
@@ -16,11 +17,31 @@ final class PrestashopDevTools extends PsDevToolsBaseCommand
     {
         $this->setName('psdt:prestashop-dev-tools');
         $this->setDescription('Install / Configure / Run Prestashop dev tools.');
+        $this->addOption('uninstall', null, InputOption::VALUE_NONE, 'uninstall this package :(' );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->io = $this->getIO();
+        parent::execute($input, $output);
+
+        // -- uninstallation --
+        // needed because manual install is not performed by composer cli
+        if($input->getOption('uninstall')) {
+            try {
+                return $this->unInstallPackage();
+            }
+            // Exception thrown by us, yes, no Domain Exception Class implemented yet.
+            catch (RuntimeException $exception) {
+                $this->io->alert($exception->getMessage());
+                return 7;
+            }
+            catch(Exception $exception) {
+                $this->io->critical($exception->getMessage());
+                return 1;
+            }
+        }
+
+        // -- installation / configuration / execution
 
         try {
             $this->isPackageInstalled() ?: $this->installPackage();
