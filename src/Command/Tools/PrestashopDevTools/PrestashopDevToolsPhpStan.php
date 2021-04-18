@@ -5,9 +5,9 @@ declare(strict_types=1);
 
 namespace SebSept\PsDevToolsPlugin\Command\Tools\PrestashopDevTools;
 
+use Composer\Util\Filesystem;
 use Exception;
 use RuntimeException;
-use SebSept\PsDevToolsPlugin\Command\PsDevToolsBaseCommand;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Process\Process;
 
@@ -34,50 +34,56 @@ final class PrestashopDevToolsPhpStan extends PrestashopDevTools
         $phpstanConfigurationFileExists = file_exists(getcwd() . '/phpstan.neon');
         $composerScriptExists = $this->readComposerJsonFile()['scripts'][$this->getScriptName()] ?? false;
 
-        $configured = $phpstanConfigurationFileExists && $composerScriptExists;
-        $configured
-            ? $this->io->write("{$this->getScriptName()} is configured.")
-            : $this->io->error("{$this->getScriptName()} is not configured.");
-
-        return $configured;
+        return $phpstanConfigurationFileExists && $composerScriptExists;
     }
 
     /**
      * Interactive configuration
-     *
-     * - add "phpstan" composer script
      * - add phpstan.neon file (via prestashop-coding-standards)
-     *
+     * - add "phpstan" composer script
      * No need to check composer.json presence or validation.
-     * fact that this code is running is that composer.json is correct, because composer launched it.
+     * Fact that this code is running means that composer.json is correct, because composer launched it.
      * @throws Exception
      */
     public function configureTool(): void
     {
-        // ------ add composer script
-        $this->io->write('To perform code analyse, phpstan needs a path to a Prestashop installation.');
-        $prestashopPath = $this->io->ask('What is the path to is this Prestashop installation ? ');
-
-        $composerJsonContents = $this->readComposerJsonFile();
-        $composerJsonContents['scripts'][$this->getScriptName()] = [
-            "@putenv _PS_ROOT_DIR_=$prestashopPath",
-            "phpstan"];
-        $this->writeComposerJsonFile($composerJsonContents);
-
-        $this->io->write("Composer script <comment>{$this->getScriptName()}</comment> has been added to you composer.json");
-        $this->io->write("You can change the path to the Prestashop installation by editing ['scripts'][{$this->getScriptName()}] in your <comment>composer.json</comment>.");
-
         // ----- add phpstan.neon
-        $this->io->write("Configuration of {$this->getPackageName()} : ", false);
+
+        // first, delete the file, otherwise the installation process does not write the new file.
+        // https://github.com/PrestaShop/php-dev-tools/issues/58
+        // that's a bit touchy, it relies on the fact the file name won't change. Otherwise our workaround will fail.
+        $fs = new Filesystem();
+        $phpstanConfigurationFile = getcwd() . '/phpstan.neon';
+        $fs->remove($phpstanConfigurationFile);
+
+        $this->io->write("Installation of {$this->getScriptName()} configuration file : ", false);
         $installPhpStanConfiguration =
             new Process(['php', 'vendor/bin/prestashop-coding-standards', 'phpstan:init', '--dest', getcwd()]);
         $installPhpStanConfiguration->start();
         $installPhpStanConfiguration->wait();
+
         if (!$installPhpStanConfiguration->isSuccessful()) {
             $this->io->error('failed !');
             throw new RuntimeException("{$this->getPackageName()} configuration : {$installPhpStanConfiguration->getErrorOutput()}");
         }
+        // The process is reported to be successful even if the new file was not written :(
+        // that's why the file is deleted before running the phpstan:init
+        // Having an --override option in the phpstan:init could solve our problem.
+        // fun fact : isSuccessful() is true but getErrorOutput() has content
+
         $this->io->write('<bg=green>successful</bg=green>');
+        $this->io->info(' in fact, it\'s only PROBABLY successfull.');
+        $this->io->info(' https://github.com/PrestaShop/php-dev-tools/issues/58');
+
+        // ------ add composer script
+        $this->io->write('To perform code analyse, phpstan needs a path to a Prestashop installation.');
+        $prestashopPath = $this->io->ask('What is the path to is this Prestashop installation ? ');
+        $this->addComposerScript([
+            "@putenv _PS_ROOT_DIR_=$prestashopPath",
+            "phpstan"]);
+
+        $this->io->write("Composer script <comment>{$this->getScriptName()}</comment> has been added to you composer.json");
+        $this->io->write("You can change the path to the Prestashop installation by editing ['scripts'][{$this->getScriptName()}] in your <comment>composer.json</comment>.");
     }
 
     public function getScriptName(): string

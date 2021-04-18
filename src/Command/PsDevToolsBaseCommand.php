@@ -148,6 +148,17 @@ abstract class PsDevToolsBaseCommand extends BaseCommand implements PsDevToolsCo
     }
 
     /**
+     * @param array<string> $scripts
+     * @throws \Seld\JsonLint\ParsingException
+     */
+    final protected function addComposerScript(array $scripts) :void
+    {
+        $composerJsonContents = $this->readComposerJsonFile();
+        $composerJsonContents['scripts'][$this->getScriptName()] = $scripts;
+        $this->writeComposerJsonFile($composerJsonContents);
+    }
+
+    /**
      * DevRequired packages as an array.
      * Key is package name (eg. mypack/mypack)
      * Value is the version constraint.
