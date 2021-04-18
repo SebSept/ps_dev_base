@@ -3,19 +3,20 @@
 declare(strict_types=1);
 
 
-namespace SebSept\PsDevToolsPlugin\Command;
+namespace SebSept\PsDevToolsPlugin\Command\Tools;
 
 use Exception;
 use RuntimeException;
+use SebSept\PsDevToolsPlugin\Command\PsDevToolsBaseCommand;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Process\Process;
 
-final class PrestashopDevTools extends PsDevToolsBaseCommand
+final class PrestashopDevToolsPhpStan extends PsDevToolsBaseCommand
 {
     protected function configure(): void
     {
-        $this->setName('psdt:prestashop-dev-tools');
-        $this->setDescription('Install / Configure / Run Prestashop dev tools.');
+        $this->setName('psdt:prestashop-dev-tools:phpstan');
+        $this->setDescription('Install / Configure / Run Phpstan from prestashop/prestashop-dev-tools.');
         $this->addOption('uninstall', null, InputOption::VALUE_NONE, 'uninstall this package :(');
         $this->addOption('reconfigure', null, InputOption::VALUE_NONE, 'rerun configuration');
     }
@@ -32,12 +33,11 @@ final class PrestashopDevTools extends PsDevToolsBaseCommand
 
     /**
      * It Tool configurated ?
-     *
      * Tool is considered configured if
      * - phpstan.neon exists
      * - "phpstan" composer script exists
-     *
      * @return bool
+     * @throws \Seld\JsonLint\ParsingException
      */
     public function isToolConfigured(): bool
     {

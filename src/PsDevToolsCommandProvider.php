@@ -14,7 +14,7 @@ class PsDevToolsCommandProvider implements CommandProvider
     {
         return [
             new HelloCommand,
-            new Command\PrestashopDevTools,
+            new Command\Tools\PrestashopDevToolsPhpStan,
             ];
     }
 }

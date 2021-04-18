@@ -14,12 +14,12 @@ class HelloCommand extends BaseCommand
     protected function configure(): void
     {
         $this->setName('psdt:hello');
-        $this->setDescription('Welcome + Wizard : nothing implemented.');
+        $this->setDescription('Welcome get started here.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->getIO()->write('La commande de bienvenue. Pas implémentée pour le moment.');
+        $this->getIO()->write('This command show some helps for usage of this package.');
 
         return 0;
     }
