@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace SebSept\PsDevToolsPlugin\Command\Tools;
+namespace SebSept\PsDevToolsPlugin\Command\Tools\PrestashopDevTools;
 
 use Exception;
 use RuntimeException;
@@ -11,7 +11,7 @@ use SebSept\PsDevToolsPlugin\Command\PsDevToolsBaseCommand;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Process\Process;
 
-final class PrestashopDevToolsPhpStan extends PsDevToolsBaseCommand
+final class PrestashopDevToolsPhpStan extends PrestashopDevTools
 {
     protected function configure(): void
     {
@@ -19,16 +19,6 @@ final class PrestashopDevToolsPhpStan extends PsDevToolsBaseCommand
         $this->setDescription('Install / Configure / Run Phpstan from prestashop/prestashop-dev-tools.');
         $this->addOption('uninstall', null, InputOption::VALUE_NONE, 'uninstall this package :(');
         $this->addOption('reconfigure', null, InputOption::VALUE_NONE, 'rerun configuration');
-    }
-
-    public function getPackageName(): string
-    {
-        return 'prestashop/php-dev-tools';
-    }
-
-    public function getPackageVersionConstraint(): string
-    {
-        return '4.*';
     }
 
     /**
