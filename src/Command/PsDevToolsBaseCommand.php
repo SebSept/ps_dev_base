@@ -54,10 +54,22 @@ abstract class PsDevToolsBaseCommand extends BaseCommand implements PsDevToolsCo
 
         // -- installation / configuration / execution
         try {
-            $runConfiguration = $input->getOption('reconfigure') || !$this->isToolConfigured();
-            $readyToRun = $this->isPackageInstalled() && !$runConfiguration;
+            $isToolConfigured = $this->isToolConfigured();
+            $isPackageInstalled = $this->isPackageInstalled();
 
-            $this->isPackageInstalled() ?: $this->installPackage();
+            // state messages
+            $isPackageInstalled
+                ? $this->io->write("{$this->getPackageName()} is installed.")
+                : $this->io->error("{$this->getPackageName()} is not installed.");
+            $isToolConfigured
+                ? $this->io->write("{$this->getScriptName()} is configured.")
+                : $this->io->error("{$this->getScriptName()} is not configured.");
+
+            // run
+            $runConfiguration = $input->getOption('reconfigure') || !$isToolConfigured;
+            $readyToRun = $isPackageInstalled && !$runConfiguration;
+
+            $isPackageInstalled ?: $this->installPackage();
             !$runConfiguration ?: $this->configureTool();
             if (!$readyToRun) {
                 $this->io->write("<bg=green>{$this->getScriptName()} is installed and configured.</>");
@@ -89,12 +101,7 @@ abstract class PsDevToolsBaseCommand extends BaseCommand implements PsDevToolsCo
 
     final protected function isPackageInstalled(): bool
     {
-        $installed = array_key_exists($this->getPackageName(), $this->getInstalledDevRequires());
-        $installed
-            ? $this->io->write("{$this->getPackageName()} is installed.")
-            : $this->io->error("{$this->getPackageName()} is not installed.");
-
-        return $installed;
+        return array_key_exists($this->getPackageName(), $this->getInstalledDevRequires());
     }
 
     final protected function unInstallPackage(): int
