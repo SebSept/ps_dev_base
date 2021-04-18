@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SebSept\PsDevToolsPlugin;
 
 use Composer\Composer;
+use Composer\DependencyResolver\Operation\InstallOperation;
 use Composer\Installer\PackageEvent;
 use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\IO\IOInterface;
@@ -49,6 +50,19 @@ class PsDevToolsPlugin implements PluginInterface, Capable, EventSubscriberInter
 
     public function hello(PackageEvent $event): void
     {
+        // this happen on post-package-install so it should be an InstallOperation
+        // however, for safety it's checked.
+        if (!$event->getOperation() instanceof InstallOperation) {
+            return;
+        }
+
+        // only for self installation
+        /** @var InstallOperation $operation */
+        $operation = $event->getOperation();
+        if($operation->getPackage()->getName() !== 'sebsept/ps_dev_base') {
+           return;
+        }
+
         $event->getIO()->write('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
         $event->getIO()->write('~~ <fg=magenta>Congratulation !PsDevTool is now installed</>. ~~');
         $event->getIO()->write('~~ run <comment>composer psdt:hello</comment> to get started.     ~~');
