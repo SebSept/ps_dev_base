@@ -73,7 +73,7 @@ abstract class PsDevToolsBaseCommand extends BaseCommand implements PsDevToolsCo
             !$runConfiguration ?: $this->configureTool();
             if (!$readyToRun) {
                 $this->io->write("<bg=green>{$this->getScriptName()} is installed and configured.</>");
-                $this->io->write("run <comment>composer {$this->getName()}</comment> to run the tool.");
+                $this->io->write("run the same command <comment>composer {$this->getName()}</comment> to run the tool.");
                 return 0;
             }
 

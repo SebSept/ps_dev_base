@@ -59,8 +59,8 @@ class PsDevToolsPlugin implements PluginInterface, Capable, EventSubscriberInter
         // only for self installation
         /** @var InstallOperation $operation */
         $operation = $event->getOperation();
-        if($operation->getPackage()->getName() !== 'sebsept/ps_dev_base') {
-           return;
+        if ($operation->getPackage()->getName() !== 'sebsept/ps_dev_base') {
+            return;
         }
 
         $event->getIO()->write('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
