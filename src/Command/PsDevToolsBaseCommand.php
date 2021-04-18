@@ -31,7 +31,7 @@ abstract class PsDevToolsBaseCommand extends BaseCommand implements PsDevToolsCo
      * @param OutputInterface $output
      * @return int
      */
-    public function execute(InputInterface $input, OutputInterface $output): int
+    final protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io = $this->getIO();
         $this->output = $output;
@@ -77,7 +77,7 @@ abstract class PsDevToolsBaseCommand extends BaseCommand implements PsDevToolsCo
         return 0;
     }
 
-    public function runTool(): void
+    final protected function runTool(): void
     {
         $this->getApplication()->find('run-script')->run(
             new ArrayInput([

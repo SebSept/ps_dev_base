@@ -10,5 +10,4 @@ interface PsDevToolsCommandInterface
     public function getScriptName() : string;
     public function isToolConfigured() : bool;
     public function configureTool(): void;
-    public function runTool(): void;
 }
