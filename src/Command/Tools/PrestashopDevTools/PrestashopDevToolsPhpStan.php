@@ -57,27 +57,8 @@ final class PrestashopDevToolsPhpStan extends PrestashopDevTools
         $phpstanConfigurationFile = getcwd() . '/phpstan.neon';
         $fs->remove($phpstanConfigurationFile);
 
-        // this way allows interaction - but in fact the file is not overriden ...
-        // I won't try longer for this way
-//        $this->io->write("Installation of {$this->getScriptName()} configuration file : ", false);
-//
-//        $installPhpStanConfiguration =             new ProcessExecutor($this->getIO());
-//        $output = '';
-//        $installPhpStanConfiguration->executeTty('php vendor/bin/prestashop-coding-standards phpstan:init --dest '.getcwd
-//            (), getcwd());
-//        $installPhpStanConfiguration->wait();
-//
-//        $this->getIO()->info($installPhpStanConfiguration->getErrorOutput());
-//        $this->getIO()->info($output);
+        $this->io->write("Installation of {$this->getScriptName()} configuration file : ", false);
 
-
-        // it call proc_open with [] as first arg but the 7.2 version only support string
-        // can't explain why but my machine has php72, php74, ... installed and it appears that despite installation of
-        // composer dependencies + composer call using php72, php74 is still
-        // next commented code line is not correct despite phpstorm autocompletion and phpstan is ok
-        // The Process version in symfony does not allow it. Or maybe it's one more caveat of proc_open
-
-        // $installPhpStanConfiguration = new Process(['php', 'vendor/bin/prestashop-coding-standards', 'phpstan:init', '--dest', getcwd()]);
         $installPhpStanConfiguration = new Process('php vendor/bin/prestashop-coding-standards phpstan:init --dest \''. getcwd().'\''); // @phpstan-ignore-line  - This is needed, see comment above
         $installPhpStanConfiguration->start();
 
@@ -89,9 +70,8 @@ final class PrestashopDevToolsPhpStan extends PrestashopDevTools
         // fun fact : isSuccessful() is true but getErrorOutput() has content
         if (!$installPhpStanConfiguration->isSuccessful()) {
             $this->io->error('failed !');
-            throw new RuntimeException("{$this->getPackageName()} configuration : {$installPhpStanConfiguration->getErrorOutput()}");
+            throw new RuntimeException("{$this->getScriptName()} configuration : {$installPhpStanConfiguration->getErrorOutput()}");
         }
-
 
         $this->io->write('<bg=green>successful</bg=green>');
         $this->io->info(' in fact, it\'s only PROBABLY successfull.');
@@ -102,7 +82,7 @@ final class PrestashopDevToolsPhpStan extends PrestashopDevTools
         $prestashopPath = $this->io->ask('What is the path to is this Prestashop installation ? ');
         $this->addComposerScript([
             "@putenv _PS_ROOT_DIR_=$prestashopPath",
-            "phpstan"]);
+            $this->getScriptName()]);
 
         $this->io->write("Composer script <comment>{$this->getScriptName()}</comment> has been added to you composer.json");
         $this->io->write("You can change the path to the Prestashop installation by editing ['scripts'][{$this->getScriptName()}] in your <comment>composer.json</comment>.");
