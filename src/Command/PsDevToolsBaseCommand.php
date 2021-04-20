@@ -38,19 +38,21 @@ abstract class PsDevToolsBaseCommand extends BaseCommand implements PsDevToolsCo
 
         // -- uninstallation --
         // needed because manual install is not performed by composer cli
-        if ($input->getOption('uninstall')) {
-            try {
-                return $this->unInstallPackage();
-            }
-            // Exception thrown by us, yes, no Domain Exception Class implemented yet.
-            catch (RuntimeException $exception) {
-                $this->io->alert($exception->getMessage());
-                return 7;
-            } catch (Exception $exception) {
-                $this->io->critical($exception->getMessage());
-                return 1;
-            }
-        }
+        // @todo remove
+        // not needed anymore since installation is made by command call.
+//        if ($input->getOption('uninstall')) {
+//            try {
+//                return $this->unInstallPackage();
+//            }
+//            // Exception thrown by us, yes, no Domain Exception Class implemented yet.
+//            catch (RuntimeException $exception) {
+//                $this->io->alert($exception->getMessage());
+//                return 7;
+//            } catch (Exception $exception) {
+//                $this->io->critical($exception->getMessage());
+//                return 1;
+//            }
+//        }
 
         // -- installation / configuration / execution
         try {

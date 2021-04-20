@@ -17,7 +17,8 @@ final class PrestashopDevToolsPhpStan extends PrestashopDevTools
     {
         $this->setName('psdt:prestashop-dev-tools:phpstan');
         $this->setDescription('Install / Configure / Run Phpstan from prestashop/prestashop-dev-tools.');
-        $this->addOption('uninstall', null, InputOption::VALUE_NONE, 'uninstall this package :(');
+        $this->addOption('uninstall', null, InputOption::VALUE_NONE, 'uninstall this package :('); // cette option
+        // n'est plus necessaire - mais on devrait peut-être la garder quand le gars veux désinstaller ce package...
         $this->addOption('reconfigure', null, InputOption::VALUE_NONE, 'rerun configuration');
     }
 
