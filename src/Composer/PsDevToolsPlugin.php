@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SebSept\PsDevToolsPlugin;
+namespace SebSept\PsDevToolsPlugin\Composer;
 
 use Composer\Composer;
 use Composer\DependencyResolver\Operation\InstallOperation;

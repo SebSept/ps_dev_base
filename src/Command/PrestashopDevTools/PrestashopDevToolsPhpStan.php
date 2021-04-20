@@ -3,12 +3,11 @@
 declare(strict_types=1);
 
 
-namespace SebSept\PsDevToolsPlugin\Command\Tools\PrestashopDevTools;
+namespace SebSept\PsDevToolsPlugin\Command\PrestashopDevTools;
 
 use Composer\Util\Filesystem;
 use Exception;
 use RuntimeException;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Process\Process;
 
 final class PrestashopDevToolsPhpStan extends PrestashopDevTools
@@ -17,11 +16,9 @@ final class PrestashopDevToolsPhpStan extends PrestashopDevTools
 
     protected function configure(): void
     {
-        $this->setName('psdt:prestashop-dev-tools:phpstan');
+        $this->setName('phpstan');
         $this->setDescription('Install / Configure / Run Phpstan from prestashop/prestashop-dev-tools.');
-        $this->addOption('uninstall', null, InputOption::VALUE_NONE, 'uninstall this package :('); // cette option
-        // n'est plus necessaire - mais on devrait peut-être la garder quand le gars veux désinstaller ce package...
-        $this->addOption('reconfigure', null, InputOption::VALUE_NONE, 'rerun configuration');
+        parent::configure();
     }
 
     /**
@@ -35,7 +32,7 @@ final class PrestashopDevToolsPhpStan extends PrestashopDevTools
     public function isToolConfigured(): bool
     {
         $phpstanConfigurationFileExists = file_exists(getcwd() . self::PHPSTAN_CONFIGURATION_FILE);
-        $composerScriptExists = $this->readComposerJsonFile()['scripts'][$this->getScriptName()] ?? false;
+        $composerScriptExists = $this->readComposerJsonFile()['scripts'][$this->getComposerScriptName()] ?? false;
 
         return $phpstanConfigurationFileExists && $composerScriptExists;
     }
@@ -59,9 +56,10 @@ final class PrestashopDevToolsPhpStan extends PrestashopDevTools
         $phpstanConfigurationFile = getcwd() . self::PHPSTAN_CONFIGURATION_FILE;
         $fs->remove($phpstanConfigurationFile);
 
-        $this->io->write("Installation of {$this->getScriptName()} configuration file : ", false);
+        $this->getIO()->write("Installation of {$this->getComposerScriptName()} configuration file : ", false);
 
-        $installPhpStanConfiguration = new Process('php vendor/bin/prestashop-coding-standards phpstan:init --dest \''. getcwd().'\''); // @phpstan-ignore-line  - This is needed, see comment above
+        $installPhpStanConfiguration =
+            new Process('php vendor/bin/prestashop-coding-standards phpstan:init --dest \''.getcwd().'\''); // @phpstan-ignore-line  - This is needed, see comment above
         $installPhpStanConfiguration->start();
 
         $installPhpStanConfiguration->wait();
@@ -71,26 +69,28 @@ final class PrestashopDevToolsPhpStan extends PrestashopDevTools
         // Having an --override option in the phpstan:init could solve our problem.
         // fun fact : isSuccessful() is true but getErrorOutput() has content
         if (!$installPhpStanConfiguration->isSuccessful()) {
-            $this->io->error('failed !');
-            throw new RuntimeException("{$this->getScriptName()} configuration : {$installPhpStanConfiguration->getErrorOutput()}");
+            $this->getIO()->error('failed !');
+            throw new RuntimeException("{$this->getComposerScriptName()} configuration : {$installPhpStanConfiguration->getErrorOutput()}");
         }
 
-        $this->io->write('<bg=green>successful</bg=green>');
-        $this->io->info(' in fact, it\'s only PROBABLY successfull.');
-        $this->io->info(' https://github.com/PrestaShop/php-dev-tools/issues/58');
+        $this->getIO()->write('<bg=green>successful</bg=green>');
+        $this->getIO()->info(' in fact, it\'s only PROBABLY successfull.');
+        $this->getIO()->info(' https://github.com/PrestaShop/php-dev-tools/issues/58');
 
         // ------ add composer script
-        $this->io->write('To perform code analyse, phpstan needs a path to a Prestashop installation.');
-        $prestashopPath = $this->io->ask('What is the path to is this Prestashop installation ? ');
+        $this->getIO()->write('To perform code analyse, phpstan needs a path to a Prestashop installation.');
+        $prestashopPath = $this->getIO()->ask('What is the path to is this Prestashop installation ? ');
         $this->addComposerScript([
             "@putenv _PS_ROOT_DIR_=$prestashopPath",
-            $this->getScriptName()]);
+            $this->getComposerScriptName()]);
 
-        $this->io->write("Composer script <comment>{$this->getScriptName()}</comment> has been added to you composer.json");
-        $this->io->write("You can change the path to the Prestashop installation by editing ['scripts'][{$this->getScriptName()}] in your <comment>composer.json</comment>.");
+        $this->getIO()
+            ->write("Composer script <comment>{$this->getComposerScriptName()}</comment> has been added to you composer.json");
+        $this->getIO()
+            ->write("You can change the path to the Prestashop installation by editing ['scripts'][{$this->getComposerScriptName()}] in your <comment>composer.json</comment>.");
     }
 
-    public function getScriptName(): string
+    public function getComposerScriptName(): string
     {
         return 'phpstan';
     }

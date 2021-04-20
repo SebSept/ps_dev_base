@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace SebSept\PsDevToolsPlugin\Command;
+namespace SebSept\PsDevToolsPlugin\Command\SebSept;
 
 use Composer\Command\BaseCommand;
 use Symfony\Component\Console\Input\InputInterface;

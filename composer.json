@@ -33,6 +33,6 @@
   },
   "type": "composer-plugin",
   "extra": {
-    "class" : "SebSept\\PsDevToolsPlugin\\PsDevToolsPlugin"
+    "class" : "SebSept\\PsDevToolsPlugin\\Composer\\PsDevToolsPlugin"
   }
 }
