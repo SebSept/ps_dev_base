@@ -13,6 +13,8 @@ use Symfony\Component\Process\Process;
 
 final class PrestashopDevToolsPhpStan extends PrestashopDevTools
 {
+    const PHPSTAN_CONFIGURATION_FILE = '/phpstan.neon';
+
     protected function configure(): void
     {
         $this->setName('psdt:prestashop-dev-tools:phpstan');
@@ -32,7 +34,7 @@ final class PrestashopDevToolsPhpStan extends PrestashopDevTools
      */
     public function isToolConfigured(): bool
     {
-        $phpstanConfigurationFileExists = file_exists(getcwd() . '/phpstan.neon');
+        $phpstanConfigurationFileExists = file_exists(getcwd() . self::PHPSTAN_CONFIGURATION_FILE);
         $composerScriptExists = $this->readComposerJsonFile()['scripts'][$this->getScriptName()] ?? false;
 
         return $phpstanConfigurationFileExists && $composerScriptExists;
@@ -54,7 +56,7 @@ final class PrestashopDevToolsPhpStan extends PrestashopDevTools
         // https://github.com/PrestaShop/php-dev-tools/issues/58
         // that's a bit touchy, it relies on the fact the file name won't change. Otherwise our workaround will fail.
         $fs = new Filesystem();
-        $phpstanConfigurationFile = getcwd() . '/phpstan.neon';
+        $phpstanConfigurationFile = getcwd() . self::PHPSTAN_CONFIGURATION_FILE;
         $fs->remove($phpstanConfigurationFile);
 
         $this->io->write("Installation of {$this->getScriptName()} configuration file : ", false);
