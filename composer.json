@@ -17,7 +17,8 @@
   "require": {
     "composer-plugin-api": "^2.0",
     "php": ">=7.2.0",
-    "ext-json": "*"
+    "ext-json": "*",
+    "phpstan/phpstan": "^0.12.83"
   },
   "require-dev": {
     "composer/composer": "^2.0",
@@ -27,7 +28,7 @@
   "config": {
     "preferred-install": "dist",
     "platform": {
-      "php": "7.2.5"
+      "php": "7.2"
     }
   },
   "type": "composer-plugin",

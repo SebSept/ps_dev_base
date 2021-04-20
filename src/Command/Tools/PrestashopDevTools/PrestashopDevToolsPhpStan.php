@@ -56,20 +56,41 @@ final class PrestashopDevToolsPhpStan extends PrestashopDevTools
         $phpstanConfigurationFile = getcwd() . '/phpstan.neon';
         $fs->remove($phpstanConfigurationFile);
 
-        $this->io->write("Installation of {$this->getScriptName()} configuration file : ", false);
-        $installPhpStanConfiguration =
-            new Process(['php', 'vendor/bin/prestashop-coding-standards', 'phpstan:init', '--dest', getcwd()]);
+        // this way allows interaction - but in fact the file is not overriden ...
+        // I won't try longer for this way
+//        $this->io->write("Installation of {$this->getScriptName()} configuration file : ", false);
+//
+//        $installPhpStanConfiguration =             new ProcessExecutor($this->getIO());
+//        $output = '';
+//        $installPhpStanConfiguration->executeTty('php vendor/bin/prestashop-coding-standards phpstan:init --dest '.getcwd
+//            (), getcwd());
+//        $installPhpStanConfiguration->wait();
+//
+//        $this->getIO()->info($installPhpStanConfiguration->getErrorOutput());
+//        $this->getIO()->info($output);
+
+
+        // it call proc_open with [] as first arg but the 7.2 version only support string
+        // can't explain why but my machine has php72, php74, ... installed and it appears that despite installation of
+        // composer dependencies + composer call using php72, php74 is still
+        // next commented code line is not correct despite phpstorm autocompletion and phpstan is ok
+        // The Process version in symfony does not allow it. Or maybe it's one more caveat of proc_open
+
+        // $installPhpStanConfiguration = new Process(['php', 'vendor/bin/prestashop-coding-standards', 'phpstan:init', '--dest', getcwd()]);
+        $installPhpStanConfiguration = new Process('php vendor/bin/prestashop-coding-standards phpstan:init --dest \''. getcwd().'\''); // @phpstan-ignore-line  - This is needed, see comment above
         $installPhpStanConfiguration->start();
+
         $installPhpStanConfiguration->wait();
 
-        if (!$installPhpStanConfiguration->isSuccessful()) {
-            $this->io->error('failed !');
-            throw new RuntimeException("{$this->getPackageName()} configuration : {$installPhpStanConfiguration->getErrorOutput()}");
-        }
         // The process is reported to be successful even if the new file was not written :(
         // that's why the file is deleted before running the phpstan:init
         // Having an --override option in the phpstan:init could solve our problem.
         // fun fact : isSuccessful() is true but getErrorOutput() has content
+        if (!$installPhpStanConfiguration->isSuccessful()) {
+            $this->io->error('failed !');
+            throw new RuntimeException("{$this->getPackageName()} configuration : {$installPhpStanConfiguration->getErrorOutput()}");
+        }
+
 
         $this->io->write('<bg=green>successful</bg=green>');
         $this->io->info(' in fact, it\'s only PROBABLY successfull.');
