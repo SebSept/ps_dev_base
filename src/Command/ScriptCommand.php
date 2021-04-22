@@ -7,5 +7,4 @@ namespace SebSept\PsDevToolsPlugin\Command;
 
 abstract class ScriptCommand extends BaseCommand
 {
-
 }

@@ -1,0 +1,7 @@
+parameters:
+  paths:
+    - ./src
+  excludes_analyse:
+    - vendor/
+  reportUnmatchedIgnoredErrors: false
+  level: 6

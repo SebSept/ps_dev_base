@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * (And require initialization).
  */
 
-abstract class ComposerPackageCommand extends BaseCommand 
+abstract class ComposerPackageCommand extends BaseCommand
 {
     /**
      * @var OutputInterface

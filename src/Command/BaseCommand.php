@@ -32,7 +32,7 @@ abstract class BaseCommand extends ComposerBaseCommand implements BaseCommandInt
      */
     final protected function readComposerJsonFile(): array
     {
-        trigger_error('remplacer par IsComposerScriptDefined');
+        @trigger_error('remplacer par IsComposerScriptDefined');
         return (new JsonFile(getcwd() . '/composer.json'))->read();
     }
 

@@ -19,5 +19,4 @@ class IndexPhpFiller extends ScriptCommand
     {
         return 'fill-index';
     }
-
 }

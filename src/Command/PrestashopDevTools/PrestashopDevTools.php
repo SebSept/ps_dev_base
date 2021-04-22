@@ -5,9 +5,9 @@ declare(strict_types=1);
 
 namespace SebSept\PsDevToolsPlugin\Command\PrestashopDevTools;
 
-use SebSept\PsDevToolsPlugin\Command\BaseCommand;
+use SebSept\PsDevToolsPlugin\Command\ComposerPackageCommand;
 
-abstract class PrestashopDevTools extends BaseCommand
+abstract class PrestashopDevTools extends ComposerPackageCommand
 {
     final public function getPackageName(): string
     {
