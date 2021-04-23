@@ -13,13 +13,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class PsDevToolsPackageCommand
- * @package SebSept\PsDevToolsPlugin\Command
- *
- * For tools that depends on other composer package.
- * (And require initialization).
+ * Class PsDevToolsPackageCommand.
  */
-
 abstract class ComposerPackageCommand extends BaseCommand
 {
     /**
@@ -27,17 +22,14 @@ abstract class ComposerPackageCommand extends BaseCommand
      */
     private $output;
 
-    abstract public function getPackageVersionConstraint() : ?string;
-    abstract public function isToolConfigured() : bool;
+    abstract public function getPackageName(): ?string;
+
+    abstract public function getPackageVersionConstraint(): ?string;
+
+    abstract public function isToolConfigured(): bool;
+
     abstract public function configureTool(): void;
-    abstract public function getPackageName() : ?string;
 
-
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
-     */
     final protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->output = $output;
@@ -48,11 +40,11 @@ abstract class ComposerPackageCommand extends BaseCommand
 
             // state messages
             $isPackageInstalled
-                ?  $this->getIO()->write(sprintf("%s is installed.", $this->getPackageName() ?? $this->getComposerScriptName()))
-                :  $this->getIO()->error("{$this->getPackageName()} is not installed.");
+                ? $this->getIO()->write(sprintf('%s is installed.', $this->getPackageName() ?? $this->getComposerScriptName()))
+                : $this->getIO()->error("{$this->getPackageName()} is not installed.");
             $isToolConfigured
-                ?  $this->getIO()->write("{$this->getComposerScriptName()} is configured.")
-                :  $this->getIO()->error("{$this->getComposerScriptName()} is not configured.");
+                ? $this->getIO()->write("{$this->getComposerScriptName()} is configured.")
+                : $this->getIO()->error("{$this->getComposerScriptName()} is not configured.");
 
             // run
             $runConfiguration = $input->getOption('reconfigure') || !$isToolConfigured;
@@ -63,15 +55,18 @@ abstract class ComposerPackageCommand extends BaseCommand
             if (!$readyToRun) {
                 $this->getIO()->write("<bg=green>{$this->getComposerScriptName()} is installed and configured.</>");
                 $this->getIO()->write("run the same command <comment>composer {$this->getName()}</comment> to run the tool.");
+
                 return 0;
             }
 
             $this->runTool();
         } catch (RuntimeException $exception) {
             $this->getIO()->alert($exception->getMessage());
+
             return 7;
         } catch (Exception $exception) {
             $this->getIO()->critical($exception->getMessage());
+
             return 1;
         }
 
@@ -89,7 +84,7 @@ abstract class ComposerPackageCommand extends BaseCommand
     }
 
     /**
-     * Common options
+     * Common options.
      */
     protected function configure(): void
     {
@@ -103,7 +98,7 @@ abstract class ComposerPackageCommand extends BaseCommand
     }
 
     /**
-     * @return int execution result code - 1 if no package.
+     * @return int execution result code - 1 if no package
      *
      * @throws \Exception
      */
@@ -112,6 +107,7 @@ abstract class ComposerPackageCommand extends BaseCommand
         if (is_null($this->getPackageName())) {
             return 1;
         }
+
         return $this->getApplication()->find('require')->run(
             new ArrayInput([
                 'packages' => [sprintf('%s:%s', $this->getPackageName(), $this->getPackageVersionConstraint())],
@@ -126,6 +122,7 @@ abstract class ComposerPackageCommand extends BaseCommand
      * DevRequired packages as an array.
      * Key is package name (eg. mypack/mypack)
      * Value is the version constraint.
+     *
      * @return array<string, string>
      */
     private function getInstalledDevRequires(): array

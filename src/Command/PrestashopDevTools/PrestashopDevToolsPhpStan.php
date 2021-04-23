@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace SebSept\PsDevToolsPlugin\Command\PrestashopDevTools;
 
 use Composer\Util\Filesystem;
@@ -25,13 +24,13 @@ final class PrestashopDevToolsPhpStan extends PrestashopDevTools
      * It Tool configurated ?
      * Tool is considered configured if
      * - phpstan.neon exists
-     * - "phpstan" composer script exists
-     * @return bool
+     * - "phpstan" composer script exists.
+     *
      * @throws \Seld\JsonLint\ParsingException
      */
     public function isToolConfigured(): bool
     {
-        $phpstanConfigurationFileExists = file_exists(getcwd() . self::PHPSTAN_CONFIGURATION_FILE);
+        $phpstanConfigurationFileExists = file_exists(getcwd().self::PHPSTAN_CONFIGURATION_FILE);
         $composerScriptExists = $this->readComposerJsonFile()['scripts'][$this->getComposerScriptName()] ?? false;
 
         return $phpstanConfigurationFileExists && $composerScriptExists;
@@ -43,6 +42,7 @@ final class PrestashopDevToolsPhpStan extends PrestashopDevTools
      * - add "phpstan" composer script
      * No need to check composer.json presence or validation.
      * Fact that this code is running means that composer.json is correct, because composer launched it.
+     *
      * @throws Exception
      */
     public function configureTool(): void
@@ -53,7 +53,7 @@ final class PrestashopDevToolsPhpStan extends PrestashopDevTools
         // https://github.com/PrestaShop/php-dev-tools/issues/58
         // that's a bit touchy, it relies on the fact the file name won't change. Otherwise our workaround will fail.
         $fs = new Filesystem();
-        $phpstanConfigurationFile = getcwd() . self::PHPSTAN_CONFIGURATION_FILE;
+        $phpstanConfigurationFile = getcwd().self::PHPSTAN_CONFIGURATION_FILE;
         $fs->remove($phpstanConfigurationFile);
 
         $this->getIO()->write("Installation of {$this->getComposerScriptName()} configuration file : ", false);
@@ -82,7 +82,7 @@ final class PrestashopDevToolsPhpStan extends PrestashopDevTools
         $prestashopPath = $this->getIO()->ask('What is the path to is this Prestashop installation ? ');
         $this->addComposerScript([
             "@putenv _PS_ROOT_DIR_=$prestashopPath",
-            $this->getComposerScriptName()]);
+            $this->getComposerScriptName(), ]);
 
         $this->getIO()
             ->write("Composer script <comment>{$this->getComposerScriptName()}</comment> has been added to you composer.json");

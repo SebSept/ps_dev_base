@@ -6,8 +6,8 @@ namespace SebSept\PsDevToolsPlugin\Composer;
 
 use Composer\Composer;
 use Composer\DependencyResolver\Operation\InstallOperation;
-use Composer\Installer\PackageEvent;
 use Composer\EventDispatcher\EventSubscriberInterface;
+use Composer\Installer\PackageEvent;
 use Composer\IO\IOInterface;
 use Composer\Plugin\Capable;
 use Composer\Plugin\PluginInterface;
@@ -34,7 +34,7 @@ class PsDevToolsPlugin implements PluginInterface, Capable, EventSubscriberInter
     public function getCapabilities(): array
     {
         return [
-            'Composer\Plugin\Capability\CommandProvider' => PsDevToolsCommandProvider::class
+            'Composer\Plugin\Capability\CommandProvider' => PsDevToolsCommandProvider::class,
         ];
     }
 
@@ -59,7 +59,7 @@ class PsDevToolsPlugin implements PluginInterface, Capable, EventSubscriberInter
         // only for self installation
         /** @var InstallOperation $operation */
         $operation = $event->getOperation();
-        if ($operation->getPackage()->getName() !== 'sebsept/ps_dev_base') {
+        if ('sebsept/ps_dev_base' !== $operation->getPackage()->getName()) {
             return;
         }
 

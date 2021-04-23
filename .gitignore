@@ -3,5 +3,4 @@ vendor
 
 ; dev tools files
 .php_cs.cache
-.php_cs
 notes

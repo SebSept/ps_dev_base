@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace SebSept\PsDevToolsPlugin\Command\SebSept;
 
 use Exception;
@@ -34,13 +33,15 @@ class IndexPhpFiller extends ScriptCommand
     {
         $this->fs = new Filesystem();
         $this->getIO()->write('Adding missing index.php to all directories.'
-            . PHP_EOL . '<comment>Existing index.php are not replaced.</comment>');
+            .PHP_EOL.'<comment>Existing index.php are not replaced.</comment>');
         try {
             $this->recursivelyAddIndexes();
             $this->getIO()->write('<info>Done</info>');
+
             return 0;
         } catch (Exception $exception) {
             $this->getIO()->error($exception->getMessage());
+
             return 1;
         }
     }
@@ -62,12 +63,12 @@ class IndexPhpFiller extends ScriptCommand
     {
         $target = sprintf('%s/%s', $splFileInfo->getRealPath(), 'index.php');
         $fancyName = str_replace(getcwd(), '.', $target);
-        $this->getIO()->info(sprintf("writing new index.php at %s", $fancyName));
+        $this->getIO()->info(sprintf('writing new index.php at %s', $fancyName));
         $this->fs->copy($this->getSourceIndexPath(), $target);
     }
 
     private function getSourceIndexPath(): string
     {
-        return __DIR__ . self::SOURCE_INDEX_FILE;
+        return __DIR__.self::SOURCE_INDEX_FILE;
     }
 }

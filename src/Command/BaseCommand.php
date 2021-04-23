@@ -10,13 +10,13 @@ use Exception;
 use InvalidArgumentException;
 
 /**
- * Class BaseCommand
+ * Class BaseCommand.
  *
  * All commands in this package must extend this base command.
  */
 abstract class BaseCommand extends ComposerBaseCommand implements BaseCommandInterface
 {
-    public function setName($name) : self
+    public function setName($name): self
     {
         // temp while rewriting
         if (strpos($name, ':')) {
@@ -28,28 +28,32 @@ abstract class BaseCommand extends ComposerBaseCommand implements BaseCommandInt
 
     /**
      * @return array<string, array|string>
+     *
      * @throws \Seld\JsonLint\ParsingException
      */
     final protected function readComposerJsonFile(): array
     {
         @trigger_error('remplacer par IsComposerScriptDefined');
-        return (new JsonFile(getcwd() . '/composer.json'))->read();
+
+        return (new JsonFile(getcwd().'/composer.json'))->read();
     }
 
     /**
      * @param array<string, array|string> $composerContents
+     *
      * @throws Exception
      */
     final private function writeComposerJsonFile(array $composerContents): void
     {
-        (new JsonFile(getcwd() . '/composer.json'))->write($composerContents);
+        (new JsonFile(getcwd().'/composer.json'))->write($composerContents);
     }
 
     /**
      * @param array<string> $scripts
+     *
      * @throws \Seld\JsonLint\ParsingException
      */
-    final protected function addComposerScript(array $scripts) :void
+    final protected function addComposerScript(array $scripts): void
     {
         $composerJsonContents = $this->readComposerJsonFile();
         $composerJsonContents['scripts'][$this->getComposerScriptName()] = $scripts;

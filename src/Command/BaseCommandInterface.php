@@ -6,5 +6,5 @@ namespace SebSept\PsDevToolsPlugin\Command;
 
 interface BaseCommandInterface
 {
-    public function getComposerScriptName() : string;
+    public function getComposerScriptName(): string;
 }

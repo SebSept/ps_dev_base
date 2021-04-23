@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace SebSept\PsDevToolsPlugin\Command\PrestashopDevTools;
 
 use SebSept\PsDevToolsPlugin\Command\ComposerPackageCommand;

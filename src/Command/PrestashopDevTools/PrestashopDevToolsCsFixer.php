@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace SebSept\PsDevToolsPlugin\Command\PrestashopDevTools;
 
 use Composer\Util\Filesystem;
@@ -21,7 +20,6 @@ class PrestashopDevToolsCsFixer extends PrestashopDevTools
     }
 
     /**
-     * @return string
      * @todo renomer getComposerScriptName
      */
     public function getComposerScriptName(): string
@@ -31,7 +29,7 @@ class PrestashopDevToolsCsFixer extends PrestashopDevTools
 
     public function isToolConfigured(): bool
     {
-        $configurationFileExists = file_exists(getcwd() . self::PHP_CS_CONFIGURATION_FILE);
+        $configurationFileExists = file_exists(getcwd().self::PHP_CS_CONFIGURATION_FILE);
         $composerScriptExists = $this->readComposerJsonFile()['scripts'][$this->getComposerScriptName()] ?? false;
 
         return $configurationFileExists && $composerScriptExists;
@@ -41,7 +39,7 @@ class PrestashopDevToolsCsFixer extends PrestashopDevTools
     {
         // @see \SebSept\PsDevToolsPlugin\Command\PrestashopDevTools\PrestashopDevToolsPhpStan::configureTool
         $fs = new Filesystem();
-        $csFixeronfigurationFile = getcwd() . self::PHP_CS_CONFIGURATION_FILE;
+        $csFixeronfigurationFile = getcwd().self::PHP_CS_CONFIGURATION_FILE;
         $fs->remove($csFixeronfigurationFile);
 
         // ----- add php-cs-fixer file
