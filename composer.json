@@ -36,7 +36,8 @@
     ],
     "phpstan" : [
       "vendor/bin/phpstan analyse"
-    ]
+    ],
+    "fix" : "@php-cs-fixer"
   },
   "type": "composer-plugin",
   "extra": {
