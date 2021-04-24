@@ -32,14 +32,16 @@ use InvalidArgumentException;
  */
 abstract class BaseCommand extends ComposerBaseCommand implements BaseCommandInterface
 {
+    /**
+     * Set command name and prepend the common namespace.
+     *
+     * @param string $name
+     *
+     * @return $this
+     */
     public function setName($name): self
     {
-        // temp while rewriting
-        if (strpos($name, ':')) {
-            throw new InvalidArgumentException('pas de : dans le nom de commande');
-        }
-
-        return parent::setName("psdt:prestashop-dev-tools:$name");
+        return parent::setName("psdt:$name");
     }
 
     /**

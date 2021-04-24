@@ -33,6 +33,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 abstract class ComposerPackageCommand extends BaseCommand
 {
+    public function setName($name): BaseCommand
+    {
+        return parent::setName("prestashop-dev-tools:$name");
+    }
+
     /**
      * @var OutputInterface
      */

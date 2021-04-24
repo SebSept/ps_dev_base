@@ -49,11 +49,11 @@ For example, the
 
 * psdt:prestashop-dev-tools:php-cs-fixer
 * psdt:prestashop-dev-tools:phpstan
-* psdt:prestashop-dev-tools:fill-indexes
+* psdt:fill-indexes
 
 ### fill-indexes
 
-`composer psdt:prestashop-dev-tools:fill-indexes`
+`composer psdt:fill-indexes`
 
 Add missing index.php files as [recommended by Prestashop](https://devdocs.prestashop.com/1.7/modules/sell/techvalidation-checklist/#a-file-indexphp-exists-in-each-folder).
 
