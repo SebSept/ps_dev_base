@@ -52,7 +52,7 @@ abstract class BaseCommand extends ComposerBaseCommand implements BaseCommandInt
     {
         @trigger_error('remplacer par IsComposerScriptDefined');
 
-        return (new JsonFile(getcwd().'/composer.json'))->read();
+        return (new JsonFile(getcwd() . '/composer.json'))->read();
     }
 
     /**
@@ -62,7 +62,7 @@ abstract class BaseCommand extends ComposerBaseCommand implements BaseCommandInt
      */
     final private function writeComposerJsonFile(array $composerContents): void
     {
-        (new JsonFile(getcwd().'/composer.json'))->write($composerContents);
+        (new JsonFile(getcwd() . '/composer.json'))->write($composerContents);
     }
 
     /**

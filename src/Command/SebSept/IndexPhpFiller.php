@@ -49,7 +49,7 @@ class IndexPhpFiller extends ScriptCommand
     {
         $this->fs = new Filesystem();
         $this->getIO()->write('Adding missing index.php to all directories.'
-            .PHP_EOL.'<comment>Existing index.php are not replaced.</comment>');
+            . PHP_EOL . '<comment>Existing index.php are not replaced.</comment>');
         try {
             $this->recursivelyAddIndexes();
             $this->getIO()->write('<info>Done</info>');
@@ -85,7 +85,7 @@ class IndexPhpFiller extends ScriptCommand
 
     private function getSourceIndexPath(): string
     {
-        return __DIR__.self::SOURCE_INDEX_FILE;
+        return __DIR__ . self::SOURCE_INDEX_FILE;
     }
 
     private function getcwd(): string

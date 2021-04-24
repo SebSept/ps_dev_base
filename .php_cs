@@ -14,7 +14,10 @@ return $config->setRules([
         'header' => file_get_contents(__DIR__.'/.header_stamp.txt'),
         'location' => 'after_open',
         'separate' => 'bottom'
-    ]
+    ],
+    'concat_space' => [
+        'spacing' => 'one'
+    ],
 ])
     ->setFinder($finder)
     ;

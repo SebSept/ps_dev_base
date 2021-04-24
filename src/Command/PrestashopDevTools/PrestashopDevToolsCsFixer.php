@@ -45,7 +45,7 @@ class PrestashopDevToolsCsFixer extends PrestashopDevTools
 
     public function isToolConfigured(): bool
     {
-        $configurationFileExists = file_exists(getcwd().self::PHP_CS_CONFIGURATION_FILE);
+        $configurationFileExists = file_exists(getcwd() . self::PHP_CS_CONFIGURATION_FILE);
         $composerScriptExists = $this->readComposerJsonFile()['scripts'][$this->getComposerScriptName()] ?? false;
 
         return $configurationFileExists && $composerScriptExists;
@@ -55,13 +55,13 @@ class PrestashopDevToolsCsFixer extends PrestashopDevTools
     {
         // @see \SebSept\PsDevToolsPlugin\Command\PrestashopDevTools\PrestashopDevToolsPhpStan::configureTool
         $fs = new Filesystem();
-        $csFixeronfigurationFile = getcwd().self::PHP_CS_CONFIGURATION_FILE;
+        $csFixeronfigurationFile = getcwd() . self::PHP_CS_CONFIGURATION_FILE;
         $fs->remove($csFixeronfigurationFile);
 
         // ----- add php-cs-fixer file
         $this->getIO()->write("Installation of {$this->getComposerScriptName()} configuration file : ", false);
         $installCsFixerConfiguration =
-            new Process('php vendor/bin/prestashop-coding-standards cs-fixer:init --dest '.getcwd()); // @phpstan-ignore-line
+            new Process('php vendor/bin/prestashop-coding-standards cs-fixer:init --dest ' . getcwd()); // @phpstan-ignore-line
         $installCsFixerConfiguration->start();
         $installCsFixerConfiguration->wait();
         if (!$installCsFixerConfiguration->isSuccessful()) {

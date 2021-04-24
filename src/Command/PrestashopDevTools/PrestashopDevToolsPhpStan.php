@@ -46,7 +46,7 @@ final class PrestashopDevToolsPhpStan extends PrestashopDevTools
      */
     public function isToolConfigured(): bool
     {
-        $phpstanConfigurationFileExists = file_exists(getcwd().self::PHPSTAN_CONFIGURATION_FILE);
+        $phpstanConfigurationFileExists = file_exists(getcwd() . self::PHPSTAN_CONFIGURATION_FILE);
         $composerScriptExists = $this->readComposerJsonFile()['scripts'][$this->getComposerScriptName()] ?? false;
 
         return $phpstanConfigurationFileExists && $composerScriptExists;
@@ -69,13 +69,13 @@ final class PrestashopDevToolsPhpStan extends PrestashopDevTools
         // https://github.com/PrestaShop/php-dev-tools/issues/58
         // that's a bit touchy, it relies on the fact the file name won't change. Otherwise our workaround will fail.
         $fs = new Filesystem();
-        $phpstanConfigurationFile = getcwd().self::PHPSTAN_CONFIGURATION_FILE;
+        $phpstanConfigurationFile = getcwd() . self::PHPSTAN_CONFIGURATION_FILE;
         $fs->remove($phpstanConfigurationFile);
 
         $this->getIO()->write("Installation of {$this->getComposerScriptName()} configuration file : ", false);
 
         $installPhpStanConfiguration =
-            new Process('php vendor/bin/prestashop-coding-standards phpstan:init --dest \''.getcwd().'\''); // @phpstan-ignore-line  - This is needed, see comment above
+            new Process('php vendor/bin/prestashop-coding-standards phpstan:init --dest \'' . getcwd() . '\''); // @phpstan-ignore-line  - This is needed, see comment above
         $installPhpStanConfiguration->start();
 
         $installPhpStanConfiguration->wait();
