@@ -31,13 +31,20 @@ class PrestashopDevToolsCsFixer extends PrestashopDevTools
     protected function configure(): void
     {
         $this->setName('php-cs-fixer');
-        $this->setDescription('Install / Configure / Run Php-cs-fixer from prestashop/prestashop-dev-tools.');
+        $this->setDescription('run php-cs-fixer with Prestashop standards.');
+        $this->setHelp(
+            $this->getDescription() . PHP_EOL . PHP_EOL . 'Format php files for complying with the Prestashop standards.'
+            . PHP_EOL . PHP_EOL . 'On the first run : '
+            . PHP_EOL . ' * the <info>PrestaShop/php-dev-tools</info> package will be installed if needed.'
+            . PHP_EOL . ' * <info>.php_cs</info> file will be created with the Prestashop standard styles. <comment>Destructive, get your files under version control</comment>'
+            . PHP_EOL . " * the composer script <info>{$this->getComposerScriptName()}</info> will be added. So you can invoke this command with <info>composer {$this->getComposerScriptName()}</info> "
+            . PHP_EOL . PHP_EOL . 'The next run will run the fixer. All php files will be formated according to the Prestashop standard.'
+            . PHP_EOL . PHP_EOL . 'Provided by <info>PrestaShop/php-dev-tools/</info> - https://github.com/PrestaShop/php-dev-tools/.'
+        );
+
         parent::configure();
     }
 
-    /**
-     * @todo renomer getComposerScriptName
-     */
     public function getComposerScriptName(): string
     {
         return 'csfix';

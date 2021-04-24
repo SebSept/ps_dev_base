@@ -69,11 +69,15 @@ My replacement is simpler and doesn't require additionnal dependencies.
 
 `psdt:prestashop-dev-tools:php-cs-fixer [--reconfigure]`
 
-Run Php-cs-fixer from prestashop/prestashop-dev-tools.
+Format php files for complying with the Prestashop standards.
+This allows consistent code base.
 
-The first invokation install the composer package then creates the `.php_cs` file in your working directory.  
-The next invokations run the fixer.
-In case you want to override the existing `.php_cs` file add the `--reconfigure` option.
+On the first run :
+* the _PrestaShop/php-dev-tools_ package will be installed if needed.
+* _.php_cs_ file will be created with the Prestashop standard styles. Destructive, get your files under version control
+* the composer script _csfix_ will be added. So you can invoke this command with `composer csfix`
+
+The next runs will run the fixer. All files will be formated according to the Prestashop standard.
 
 Provided by [PrestaShop/php-dev-tools/](https://github.com/PrestaShop/php-dev-tools/).  
 Autoinstallation provided by this package.
