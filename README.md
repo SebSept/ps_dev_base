@@ -5,17 +5,6 @@ It's made to **remove the burden of intallation and configuration of essential d
 
 No need to go back to the package documentation on each install and perform tedious configuration you never remember.
 
-## Backgound 
-
-> to remove on next commit, just for memory.
-
-As a freelance Prestashop developper, I must confess that I'm not often using quality tools to do my work.  
-That's an error, I know, but I'm also too lazy to install this stuffs, run the configuration tools, then fix the incorrect settings.
-The power of phpstan to find possible bugs is so big that it's not correct for a professionnal to ignore this tool (and the others).  
-So I started to implement this package to get the tools ready to fix my code with the fewer possible steps.  
-I know that most of Prestashop developpers don't use this tools daily. I'm not an exception. That's why I shared this package. I hope you can benefit from it and maybe make it better.
-
-
 ## Requirements 
 
 The single requirement is just to have composer installed.
