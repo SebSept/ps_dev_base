@@ -79,7 +79,7 @@ class IndexPhpFiller extends ScriptCommand
     {
         $target = sprintf('%s/%s', $splFileInfo->getRealPath(), 'index.php');
         $fancyName = str_replace(getcwd(), '.', $target);
-        $this->getIO()->info(sprintf('writing new index.php at %s', $fancyName));
+        $this->getIO()->info(sprintf('Add index.php if missing at %s', $fancyName));
         $this->fs->copy($this->getSourceIndexPath(), $target);
     }
 
