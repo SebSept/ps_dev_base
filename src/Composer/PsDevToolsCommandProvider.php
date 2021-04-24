@@ -31,7 +31,7 @@ class PsDevToolsCommandProvider implements CommandProvider
     public function getCommands(): array
     {
         return [
-            new HelloCommand(),
+//            new HelloCommand(),
             new PrestashopDevToolsPhpStan(),
             new PrestashopDevToolsCsFixer(),
             new IndexPhpFiller(),

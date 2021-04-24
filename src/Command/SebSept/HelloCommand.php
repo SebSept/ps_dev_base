@@ -29,7 +29,7 @@ class HelloCommand extends BaseCommand
     protected function configure(): void
     {
         $this->setName('psdt:hello');
-        $this->setDescription('Welcome get started here.');
+        $this->setDescription('Not yet implemented');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
