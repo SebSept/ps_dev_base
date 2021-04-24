@@ -148,6 +148,9 @@ abstract class ComposerPackageCommand extends BaseCommand
      */
     private function getInstalledDevRequires(): array
     {
+        if (is_null($this->getComposer())) {
+            return [];
+        }
         $devRequires = array_map(
             function (Link $require) {
                 return ['version' => $require->getPrettyConstraint(), 'package' => $require->getTarget()];
@@ -155,6 +158,6 @@ abstract class ComposerPackageCommand extends BaseCommand
             $this->getComposer()->getPackage()->getDevRequires()
         );
 
-        return array_combine(array_column($devRequires, 'package'), array_column($devRequires, 'version'));
+        return array_combine(array_column($devRequires, 'package'), array_column($devRequires, 'version')) ?: [];
     }
 }

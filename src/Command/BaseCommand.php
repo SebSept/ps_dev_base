@@ -23,7 +23,6 @@ namespace SebSept\PsDevToolsPlugin\Command;
 use Composer\Command\BaseCommand as ComposerBaseCommand;
 use Composer\Json\JsonFile;
 use Exception;
-use InvalidArgumentException;
 
 /**
  * Class BaseCommand.
@@ -45,7 +44,7 @@ abstract class BaseCommand extends ComposerBaseCommand implements BaseCommandInt
     }
 
     /**
-     * @return array<string, array|string>
+     * @return array<string, array<string>>
      *
      * @throws \Seld\JsonLint\ParsingException
      */

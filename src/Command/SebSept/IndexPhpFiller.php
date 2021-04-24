@@ -65,7 +65,7 @@ class IndexPhpFiller extends ScriptCommand
     private function recursivelyAddIndexes(): void
     {
         $directoryIterator = (new Finder())
-            ->in(getcwd())
+            ->in($this->getcwd())
             ->directories()
             ->exclude('vendor')
             ->getIterator();
@@ -78,7 +78,7 @@ class IndexPhpFiller extends ScriptCommand
     private function addIndex(\SplFileInfo $splFileInfo): void
     {
         $target = sprintf('%s/%s', $splFileInfo->getRealPath(), 'index.php');
-        $fancyName = str_replace(getcwd(), '.', $target);
+        $fancyName = str_replace($this->getcwd(), '.', $target);
         $this->getIO()->info(sprintf('Add index.php if missing at %s', $fancyName));
         $this->fs->copy($this->getSourceIndexPath(), $target);
     }
@@ -86,5 +86,15 @@ class IndexPhpFiller extends ScriptCommand
     private function getSourceIndexPath(): string
     {
         return __DIR__.self::SOURCE_INDEX_FILE;
+    }
+
+    private function getcwd(): string
+    {
+        $cwd = getcwd();
+        if (false === $cwd) {
+            throw new \RuntimeException('getcwd() returned false. Failed to determine the current directory.');
+        }
+
+        return $cwd;
     }
 }
