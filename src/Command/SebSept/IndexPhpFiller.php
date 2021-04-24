@@ -37,8 +37,7 @@ class IndexPhpFiller extends ScriptCommand
     protected function configure(): void
     {
         $this->setName('fill-indexes')
-            ->setDescription('Add the missing index.php on each folder.'
-                . PHP_EOL . 'If the index.php exists it is not overriden.');
+            ->setDescription('Add the missing index.php files on each folder. <comment>Existing index.php files are not overriden.</comment>');
         $this->setHelp($this->getDescription()
             . PHP_EOL . PHP_EOL . 'This is a security requirement of Prestashop to avoid the contents to be listed.'
             . PHP_EOL . PHP_EOL . 'More informations on the official documentation.'

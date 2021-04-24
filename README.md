@@ -19,7 +19,7 @@ This is just a starting point.
 
 - Code formating : [php-cs-fixer](https://github.com/FriendsOfPhp/PHP-CS-Fixer) configured using prestashop standard, ready to use out of the box.
 - Code analysis : [phpstan](https://phpstan.org/) almost ready to use with Prestashop standard, it asks a question then you're ready. 
-- `fill-indexes` command, to add required index.php. [(recommended by Prestashop)](https://devdocs.prestashop.com/1.7/modules/sell/techvalidation-checklist/#a-file-indexphp-exists-in-each-folder). Replacement for [prestashop/autoindex](https://github.com/PrestaShopCorp/autoindex)
+- `fill-indexes` command, to add required index.php files. (see below for details)
 
 More tools will come 
 - [prestashop/header-stamp](https://github.com/PrestaShopCorp/header-stamp/) (update license header in files)
@@ -55,7 +55,12 @@ For example, the
 
 `composer psdt:fill-indexes`
 
-Add missing index.php files as [recommended by Prestashop](https://devdocs.prestashop.com/1.7/modules/sell/techvalidation-checklist/#a-file-indexphp-exists-in-each-folder).
+Add the missing index.php files on each folder.
+Existing index.php files are not overriden.
+
+This is a security requirement of Prestashop to avoid the contents to be listed.
+
+More information [on the official documentation](https://devdocs.prestashop.com/1.7/modules/sell/techvalidation-checklist/#a-file-indexphp-exists-in-each-folder).
 
 I can't include [prestashop/autoindex](https://github.com/PrestaShopCorp/autoindex) because [it targets php 5.6](https://github.com/PrestaShopCorp/autoindex/blob/92e10242f94a99163dece280f6bd7b7c2b79c158/composer.json#L23) and has other issues.  
 My replacement is simpler and doesn't require additionnal dependencies.
