@@ -113,7 +113,10 @@ At the root of your module, in a shell, run (not yet available, see below)
 [php-cs-fixer](https://github.com/FriendsOfPhp/PHP-CS-Fixer) and [phpstan](https://phpstan.org/) configuration and bootstraping are provided by [PrestaShop/php-dev-tools/](https://github.com/PrestaShop/php-dev-tools/).  
 Repository actions are made by [github workflows](https://docs.github.com/en/free-pro-team@latest/actions).
 
-### What's next ?
+## What's next ?
 
 See is issues in this github repository.
 
+## Development notes (for this package)
+
+Install the precommit with `ln -s $(pwd)/precommit.sh .git/hooks/pre-commit` (works on linux)
