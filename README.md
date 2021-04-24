@@ -1,22 +1,46 @@
 # Prestashop Dev Base
 
-This package is composer plugin that provides tools for Prestashop module development.
+This package is composer plugin that provides **tools for [Prestashop](https://github.com/prestashop/prestashop) module development**.  
+It's made to **remove the burden of intallation and configuration of essential development tools**. 
 
-## Featured local tools
+No need to go back to the package documentation on each install and perform tedious configuration you never remember.
 
-- [php-cs-fixer](https://github.com/FriendsOfPhp/PHP-CS-Fixer) configured using prestashop standard, ready to use out of the box.
-- [phpstan](https://phpstan.org/) almost ready to use with Prestashop standard. (first run asks for the path to a Prestashop, and you're done) 
+## Backgound 
+
+> to remove on next commit, just for memory.
+
+As a freelance Prestashop developper, I must confess that I'm not often using quality tools to do my work.  
+That's an error, I know, but I'm also too lazy to install this stuffs, run the configuration tools, then fix the incorrect settings.
+The power of phpstan to find possible bugs is so big that it's not correct for a professionnal to ignore this tool (and the others).  
+So I started to implement this package to get the tools ready to fix my code with the fewer possible steps.  
+I know that most of Prestashop developpers don't use this tools daily. I'm not an exception. That's why I shared this package. I hope you can benefit from it and maybe make it better.
+
+
+## Requirements 
+
+The single requirement is just to have composer installed.
+If you do not have composer, you can leave this page and [start learning it](https://getcomposer.org/).
+
+For easier use, I highly suggest to use command line autocompletion for composer.  
+There's a couple options available, [this one](https://github.com/bamarni/symfony-console-autocomplete) is [recommanded by composer](https://getcomposer.org/doc/03-cli.md#command-line-completion).
+
+## Featured tools
+
+This is just a starting point.
+
+- Code formating : [php-cs-fixer](https://github.com/FriendsOfPhp/PHP-CS-Fixer) configured using prestashop standard, ready to use out of the box.
+- Code analysis : [phpstan](https://phpstan.org/) almost ready to use with Prestashop standard, it asks a question then you're ready. 
 - `fill-indexes` command, to add required index.php. [(recommended by Prestashop)](https://devdocs.prestashop.com/1.7/modules/sell/techvalidation-checklist/#a-file-indexphp-exists-in-each-folder). Replacement for [prestashop/autoindex](https://github.com/PrestaShopCorp/autoindex)
 
 More tools will come 
 - [prestashop/header-stamp](https://github.com/PrestaShopCorp/header-stamp/) (update license header in files)
 - a tool to install a precommit hook to ensure everything is ok before commiting.
-- github actions
+- GitHub actions
 - ...
 
 ## Featured CI/github actions
 
-This features are not yet included but will come soon.
+These features are not yet included but will come soon.
 
 - php syntax check (php 7.2, php 7.3)
 - php-cs-fix (configured using prestashop standard)
@@ -24,24 +48,13 @@ This features are not yet included but will come soon.
 - symfonycorp/security-checker (checks composer packages with security problem)
 - workflow to release to module (zip with the right directory) created when pushing a tag.
 
-## Under the hood
-
-[php-cs-fixer](https://github.com/FriendsOfPhp/PHP-CS-Fixer) and [phpstan](https://phpstan.org/) configuration and bootstraping are provided by [PrestaShop/php-dev-tools/](https://github.com/PrestaShop/php-dev-tools/).
-
-Repository actions are made by [github workflows](https://docs.github.com/en/free-pro-team@latest/actions).
-
-This repository is the glue between these elements.
-
 ## How does it work ?
 
 This package is composer plugin, it adds new commmands to composer command line tool.  
-Theses commands are under the namespace `psdt` (PrestaShop Developement Tools).
+These commands are under the namespace `psdt` (PrestaShop Developement Tools).
 
 The first time a command is run, a composer script is also added.
 For example, the 
-
-For easier use, I highly suggest to use command line autocompletion for composer.  
-There's a couple options available, [this one](https://github.com/bamarni/symfony-console-autocomplete) is [recommanded by composer](https://getcomposer.org/doc/03-cli.md#command-line-completion). 
 
 ## Provided commands
 
@@ -106,7 +119,12 @@ Allows complying with the [Prestashop standards](https://devdocs.prestashop.com/
 At the root of your module, in a shell, run (not yet available, see below)
 `composer require --dev sebsept/ps_dev_base:2.x-dev`
 
+## Under the hood / Credits
+
+[php-cs-fixer](https://github.com/FriendsOfPhp/PHP-CS-Fixer) and [phpstan](https://phpstan.org/) configuration and bootstraping are provided by [PrestaShop/php-dev-tools/](https://github.com/PrestaShop/php-dev-tools/).  
+Repository actions are made by [github workflows](https://docs.github.com/en/free-pro-team@latest/actions).
 
 ### What's next ?
 
 See is issues in this github repository.
+
