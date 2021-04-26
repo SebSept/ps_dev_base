@@ -31,7 +31,8 @@ This package is composer plugin, it adds new commmands to composer command line 
 These commands are under the namespace `psdt` (PrestaShop Developement Tools).
 
 The first time a command is run, a composer script is also added.
-For example, the 
+For example, the php-cs-fixer can be invoked with `composer csfix` this is a bit shorter.
+You can even take an additionnal step by [defining an alias](https://duckduckgo.com/?q=linux+alias&t=github&ia=web).
 
 ## Provided commands
 
