@@ -48,9 +48,7 @@
   "extra": {
     "class": "SebSept\\PsDevToolsPlugin\\Composer\\PsDevToolsPlugin"
   },
-  "provide": {
-    "prestashop/php-dev-tools": "4.*"
-  },
+  "provide": {},
   "suggest": {
     "friends-of-prestashop/developer_tools": "^2.0.1"
   }
