@@ -3,6 +3,12 @@
 This package provides **tools for [Prestashop](https://github.com/prestashop/prestashop) module development**.  
 It's made to **remove the burden of intallation and configuration of essential development tools**. 
 
+Quik start : 
+```shell
+composer require --dev sebsept/ps_dev_base:2.x-dev
+composer list psdt
+```
+
 ## Requirements 
 
 The single requirement is just to have composer installed.
@@ -88,22 +94,6 @@ Allows complying with the [Prestashop standards](https://devdocs.prestashop.com/
 
 ## Installation
 
-> This package is not yet on packagist. (no release published yet)
-> so, before, your composer.json must include :
-
-```json
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/SebSept/ps_dev_base",
-      "package": {
-        "name": "sebsept/ps_dev_base"
-      }
-    }
-  ],
-```
-
-At the root of your module, in a shell, run (not yet available, see below)
 `composer require --dev sebsept/ps_dev_base:2.x-dev`
 
 ## Under the hood / Credits
