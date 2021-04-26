@@ -1,9 +1,7 @@
 # Prestashop Dev Base
 
-This package is composer plugin that provides **tools for [Prestashop](https://github.com/prestashop/prestashop) module development**.  
+This package provides **tools for [Prestashop](https://github.com/prestashop/prestashop) module development**.  
 It's made to **remove the burden of intallation and configuration of essential development tools**. 
-
-No need to go back to the package documentation on each install and perform tedious configuration you never remember.
 
 ## Requirements 
 
@@ -26,16 +24,6 @@ More tools will come
 - a tool to install a precommit hook to ensure everything is ok before commiting.
 - GitHub actions
 - ...
-
-## Featured CI/github actions
-
-These features are not yet included but will come soon.
-
-- php syntax check (php 7.2, php 7.3)
-- php-cs-fix (configured using prestashop standard)
-- phpstan (configured using prestashop standard)
-- symfonycorp/security-checker (checks composer packages with security problem)
-- workflow to release to module (zip with the right directory) created when pushing a tag.
 
 ## How does it work ?
 
@@ -67,14 +55,14 @@ My replacement is simpler and doesn't require additionnal dependencies.
 
 ### php-cs-fixer
 
-`psdt:prestashop-dev-tools:php-cs-fixer [--reconfigure]`
+`composer psdt:prestashop-dev-tools:php-cs-fixer [--reconfigure]`
 
 Format php files for complying with the Prestashop standards.
 This allows consistent code base.
 
-On the first run :
+On the first run (or when `--reconfigure` option is used):
 * the _PrestaShop/php-dev-tools_ package will be installed if needed.
-* _.php_cs_ file will be created with the Prestashop standard styles. Destructive, get your files under version control
+* _.php_cs_ file will be (re)created with the Prestashop standard styles. (Destructive operation, get your files under version control!)
 * the composer script _csfix_ will be added. So you can invoke this command with `composer csfix`
 
 The next runs will run the fixer. All files will be formated according to the Prestashop standard.
@@ -86,7 +74,7 @@ Allows complying with the [Prestashop standards](https://devdocs.prestashop.com/
 
 ### phpstan
 
-`psdt:prestashop-dev-tools:phpstan [--reconfigure]`
+`composer psdt:prestashop-dev-tools:phpstan [--reconfigure]`
 
 Run Phpstan from prestashop/prestashop-dev-tools.
 

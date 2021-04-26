@@ -38,10 +38,13 @@ class IndexPhpFiller extends ScriptCommand
     {
         $this->setName('fill-indexes')
             ->setDescription('Add the missing index.php files on each folder. <comment>Existing index.php files are not overriden.</comment>');
-        $this->setHelp($this->getDescription()
-            . PHP_EOL . PHP_EOL . 'This is a security requirement of Prestashop to avoid the contents to be listed.'
-            . PHP_EOL . PHP_EOL . 'More informations on the official documentation.'
-            . PHP_EOL . 'https://devdocs.prestashop.com/1.7/modules/sell/techvalidation-checklist/#a-file-indexphp-exists-in-each-folder'
+        $this->setHelp($this->getDescription() . <<<'HELP'
+
+    This is a security requirement of Prestashop to avoid the contents to be listed.
+
+    More informations on the official documentation.
+    https://devdocs.prestashop.com/1.7/modules/sell/techvalidation-checklist/#a-file-indexphp-exists-in-each-folder
+HELP
         );
         parent::configure();
     }

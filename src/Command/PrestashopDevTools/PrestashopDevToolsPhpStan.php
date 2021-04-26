@@ -32,7 +32,31 @@ final class PrestashopDevToolsPhpStan extends PrestashopDevTools
     protected function configure(): void
     {
         $this->setName('phpstan');
-        $this->setDescription('Install / Configure / Run Phpstan from prestashop/prestashop-dev-tools.');
+        $this->setDescription('phpstan with Prestashop standards.');
+        $this->setHelp(
+            $this->getDescription() . <<<'HELP'
+
+     Analyse php files for errors and warnings. With the Prestashop standards.
+
+    On the first run (or with <info>--reconfigure</info>) :
+      * the <info>PrestaShop/php-dev-tools</info> package will be installed if needed.
+      * <info>phpstan.neon.dist</info> file will be created with the Prestashop bootstraping*. <comment>Destructive, get your files under version control</comment>
+      * the composer script <info>phpstan</info> will be added. So you can invoke this command with <info>composer phpstan</info> 
+      
+    (* The second step asks you for a Prestashop installation path. So phpstan can check your code against a real Prestashop.)
+    
+    The next runs will trigger the phpstan command. All php files will be formated according to the Prestashop standard.
+   
+    
+    You can tweak your code level checking by editing the <info>phpstan.neon</info> file.
+    For example, you can lower the level the of phpstan requirements to something lower than 'max', (from 0 to 8).
+    
+    If you want to change the Prestashop reference path, edit composer.json and find the <info>phpstan</info> script.
+
+    Provided by <info>PrestaShop/php-dev-tools/</info> - https://github.com/PrestaShop/php-dev-tools/.
+HELP
+        );
+
         parent::configure();
     }
 

@@ -31,15 +31,26 @@ class PrestashopDevToolsCsFixer extends PrestashopDevTools
     protected function configure(): void
     {
         $this->setName('php-cs-fixer');
-        $this->setDescription('run php-cs-fixer with Prestashop standards.');
+        $this->setDescription('php-cs-fixer with Prestashop standards.');
         $this->setHelp(
-            $this->getDescription() . PHP_EOL . PHP_EOL . 'Format php files for complying with the Prestashop standards.'
-            . PHP_EOL . PHP_EOL . 'On the first run : '
-            . PHP_EOL . ' * the <info>PrestaShop/php-dev-tools</info> package will be installed if needed.'
-            . PHP_EOL . ' * <info>.php_cs</info> file will be created with the Prestashop standard styles. <comment>Destructive, get your files under version control</comment>'
-            . PHP_EOL . " * the composer script <info>{$this->getComposerScriptName()}</info> will be added. So you can invoke this command with <info>composer {$this->getComposerScriptName()}</info> "
-            . PHP_EOL . PHP_EOL . 'The next run will run the fixer. All php files will be formated according to the Prestashop standard.'
-            . PHP_EOL . PHP_EOL . 'Provided by <info>PrestaShop/php-dev-tools/</info> - https://github.com/PrestaShop/php-dev-tools/.'
+            $this->getDescription() . <<<'HELP'
+
+    Format php files for complying with the Prestashop standards.
+
+    On the first run (or with <info>--reconfigure</info>) :
+      * the <info>PrestaShop/php-dev-tools</info> package will be installed if needed.
+      * <info>.php_cs</info> file will be created with the Prestashop standard styles. <comment>Destructive, get your files under version control</comment>
+      * the composer script <info>csfix</info> will be added. So you can invoke this command with <info>composer csfix</info> 
+      
+    The next runs will trigger the fixer. All php files will be formated according to the Prestashop standard.
+    
+        
+    You can tweak the formating by editing <info>.php_cs</info> file.
+    You can add options to the composer command, for example 'composer csfix --dry-run'.
+    If you want to permanently change an option, edit composer.json and find the <info>csfix</info> script.
+
+    Provided by <info>PrestaShop/php-dev-tools/</info> - https://github.com/PrestaShop/php-dev-tools/.
+HELP
         );
 
         parent::configure();
