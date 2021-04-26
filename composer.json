@@ -49,7 +49,5 @@
     "class": "SebSept\\PsDevToolsPlugin\\Composer\\PsDevToolsPlugin"
   },
   "provide": {},
-  "suggest": {
-    "friends-of-prestashop/developer_tools": "^2.0.1"
-  }
+  "suggest": {}
 }
