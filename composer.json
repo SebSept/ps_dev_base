@@ -40,7 +40,8 @@
     "fix": "@php-cs-fixer",
     "pre-commit": [
       "vendor/bin/php-cs-fixer fix --dry-run --ansi",
-      "@phpstan --ansi"
+      "@phpstan --ansi",
+      "composer validate"
     ]
   },
   "type": "composer-plugin",
@@ -48,9 +49,7 @@
     "class": "SebSept\\PsDevToolsPlugin\\Composer\\PsDevToolsPlugin"
   },
   "provide": {
-    "prestashop/php-dev-tools": "4.*",
-    "phpstan/phpstan": "^0.12.83",
-    "friendsofphp/php-cs-fixer": "^2.14"
+    "prestashop/php-dev-tools": "4.*"
   },
   "suggest": {
     "friends-of-prestashop/developer_tools": "^2.0.1"
