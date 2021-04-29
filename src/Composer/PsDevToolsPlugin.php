@@ -81,7 +81,7 @@ class PsDevToolsPlugin implements PluginInterface, Capable, EventSubscriberInter
 
         $event->getIO()->write('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
         $event->getIO()->write('~~ <fg=magenta>Congratulation !PsDevTool is now installed</>. ~~');
-        $event->getIO()->write('~~ run <comment>composer psdt:hello</comment> to get started.     ~~');
+        $event->getIO()->write('~~ run <comment>composer list psdt</comment> to get started.     ~~');
         $event->getIO()->write('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
     }
 }
