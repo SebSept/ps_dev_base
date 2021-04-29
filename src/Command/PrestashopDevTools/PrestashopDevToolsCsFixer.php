@@ -64,9 +64,8 @@ HELP
     public function isToolConfigured(): bool
     {
         $configurationFileExists = file_exists(getcwd() . self::PHP_CS_CONFIGURATION_FILE);
-        $composerScriptExists = $this->readComposerJsonFile()['scripts'][$this->getComposerScriptName()] ?? false;
 
-        return $configurationFileExists && $composerScriptExists;
+        return $configurationFileExists && $this->isComposerScriptDefined();
     }
 
     public function configureTool(): void

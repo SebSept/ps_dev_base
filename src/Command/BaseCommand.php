@@ -48,10 +48,8 @@ abstract class BaseCommand extends ComposerBaseCommand implements BaseCommandInt
      *
      * @throws \Seld\JsonLint\ParsingException
      */
-    final protected function readComposerJsonFile(): array
+    final private function readComposerJsonFile(): array
     {
-        @trigger_error('remplacer par IsComposerScriptDefined');
-
         return (new JsonFile(getcwd() . '/composer.json'))->read();
     }
 
@@ -72,8 +70,15 @@ abstract class BaseCommand extends ComposerBaseCommand implements BaseCommandInt
      */
     final protected function addComposerScript(array $scripts): void
     {
-        $composerJsonContents = $this->readComposerJsonFile();
-        $composerJsonContents['scripts'][$this->getComposerScriptName()] = $scripts;
-        $this->writeComposerJsonFile($composerJsonContents);
+        $composerFileContents = $this->readComposerJsonFile();
+        $composerFileContents['scripts'][$this->getComposerScriptName()] = $scripts;
+        $this->writeComposerJsonFile($composerFileContents);
+    }
+
+    final protected function isComposerScriptDefined(): bool
+    {
+        $composerFileContents = $this->readComposerJsonFile();
+
+        return isset($composerFileContents['scripts'][$this->getComposerScriptName()]);
     }
 }

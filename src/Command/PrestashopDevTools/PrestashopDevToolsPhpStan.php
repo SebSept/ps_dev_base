@@ -61,19 +61,17 @@ HELP
     }
 
     /**
-     * It Tool configurated ?
+     * Is Tool configurated ?
+     *
      * Tool is considered configured if
      * - phpstan.neon exists
      * - "phpstan" composer script exists.
-     *
-     * @throws \Seld\JsonLint\ParsingException
      */
     public function isToolConfigured(): bool
     {
         $phpstanConfigurationFileExists = file_exists(getcwd() . self::PHPSTAN_CONFIGURATION_FILE);
-        $composerScriptExists = $this->readComposerJsonFile()['scripts'][$this->getComposerScriptName()] ?? false;
 
-        return $phpstanConfigurationFileExists && $composerScriptExists;
+        return $phpstanConfigurationFileExists && $this->isComposerScriptDefined();
     }
 
     /**
