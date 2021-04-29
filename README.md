@@ -107,4 +107,4 @@ See is issues in this github repository.
 
 ## Development notes (for this package)
 
-Install the precommit with `ln -s $(pwd)/precommit.sh .git/hooks/pre-commit` (works on linux)
+Install the precommit hook with `ln -s $(pwd)/precommit.sh .git/hooks/pre-commit` (works on linux)
