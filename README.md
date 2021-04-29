@@ -5,7 +5,7 @@ It's made to **remove the burden of intallation and configuration of essential d
 
 Quik start : 
 ```shell
-composer require --dev sebsept/ps_dev_base:2.x-dev
+composer require --dev sebsept/ps_dev_base
 composer list psdt
 ```
 
@@ -94,7 +94,7 @@ Allows complying with the [Prestashop standards](https://devdocs.prestashop.com/
 
 ## Installation
 
-`composer require --dev sebsept/ps_dev_base:2.x-dev`
+`composer require --dev sebsept/ps_dev_base`
 
 ## Under the hood / Credits
 
@@ -103,7 +103,7 @@ Repository actions are made by [github workflows](https://docs.github.com/en/fre
 
 ## What's next ?
 
-See is issues in this github repository.
+See is issues in this GitHub repository.
 
 ## Development notes (for this package)
 
