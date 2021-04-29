@@ -16,7 +16,7 @@
   },
   "require": {
     "composer-plugin-api": "^2.0",
-    "php": ">=7.2.0",
+    "php": ">=7.2.5",
     "ext-json": "*",
     "phpstan/phpstan": "^0.12.83"
   },
@@ -27,7 +27,7 @@
   "config": {
     "preferred-install": "dist",
     "platform": {
-      "php": "7.2"
+      "php": "7.2.5"
     }
   },
   "scripts": {
@@ -48,6 +48,8 @@
   "extra": {
     "class": "SebSept\\PsDevToolsPlugin\\Composer\\PsDevToolsPlugin"
   },
-  "provide": {},
+  "provide": {
+    "prestashop/autoindex": "^1.0"
+  },
   "suggest": {}
 }

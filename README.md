@@ -42,8 +42,8 @@ You can even take an additionnal step by [defining an alias](https://duckduckgo.
 
 ## Provided commands
 
-* psdt:prestashop-dev-tools:php-cs-fixer
-* psdt:prestashop-dev-tools:phpstan
+* psdt:php-cs-fixer
+* psdt:phpstan
 * psdt:fill-indexes
 
 ### fill-indexes
@@ -62,7 +62,7 @@ My replacement is simpler and doesn't require additionnal dependencies.
 
 ### php-cs-fixer
 
-`composer psdt:prestashop-dev-tools:php-cs-fixer [--reconfigure]`
+`composer psdt:php-cs-fixer [--reconfigure]`
 
 Format php files for complying with the Prestashop standards.
 This allows consistent code base.
@@ -81,11 +81,11 @@ Allows complying with the [Prestashop standards](https://devdocs.prestashop.com/
 
 ### phpstan
 
-`composer psdt:prestashop-dev-tools:phpstan [--reconfigure]`
+`composer psdt:phpstan [--reconfigure]`
 
 Run Phpstan from prestashop/prestashop-dev-tools.
 
-Just like psdt:prestashop-dev-tools:php-cs-fixer, the first run install the package and creates/overrides the phpstan.neon configuration with Prestashop standards.
+Just like psdt:php-cs-fixer, the first run install the package and creates/overrides the phpstan.neon configuration with Prestashop standards.
 
 Provided by [PrestaShop/php-dev-tools/](https://github.com/PrestaShop/php-dev-tools/).  
 Autoinstallation provided by this package.
