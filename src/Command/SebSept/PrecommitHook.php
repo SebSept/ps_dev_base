@@ -31,8 +31,8 @@ use Symfony\Component\Filesystem\Filesystem;
 
 final class PrecommitHook extends ScriptCommand // implements ConfigurableCommand
 {
+    const SOURCE_PRECOMMIT_FILE = __DIR__ . '/../../../resources/precommit.sh';
     const PRECOMMIT_FILE = 'precommit.sh';
-    const SOURCE_PRECOMMIT_FILE = '/../../../resources/precommit.sh';
     const PRECOMMIT_HOOK_FILE = '.git/hooks/pre-commit';
 
     /** @var Filesystem */
@@ -66,6 +66,8 @@ HELP
         $this->fs = new Filesystem();
 
         try {
+            $preCommitHookFileRelativePath = str_replace(__DIR__ . DIRECTORY_SEPARATOR, '', self::PRECOMMIT_HOOK_FILE);
+
             $this->isComposerScriptDefined()
                 ? $this->getIO()->write(sprintf('<info>Composer script %s is installed.</info>', $this->getComposerScriptName()))
                 : $this->installComposerScript();
@@ -75,18 +77,18 @@ HELP
                 : $this->copyPrecommitFile();
 
             $this->isPrecommitFileSymlinked()
-                ? $this->getIO()->write(sprintf('<comment>%s</comment> is symlinked to <comment>%s</comment>', self::PRECOMMIT_FILE, self::PRECOMMIT_HOOK_FILE))
+                ? $this->getIO()->write(sprintf('<info><comment>%s</comment> is symlinked to <comment>%s</comment></info>', self::PRECOMMIT_FILE, $preCommitHookFileRelativePath))
                 : $this->symLinkPrecommitFile();
 
             $this->isPrecommitFileExecutable()
-                ? $this->getIO()->write('<comment>%s</comment> is executable.')
+                ? $this->getIO()->write(sprintf('<info><comment>%s</comment> is executable.</info>', $preCommitHookFileRelativePath))
                 : $this->makePrecommitFileExecutable();
 
             return 0;
         } catch (Exception $exception) {
             $this->getIO()->error(sprintf('%s failed : %s', $this->getComposerScriptName(), $exception->getMessage()));
-            throw $exception;
-//            return 1;
+            // throw $exception; // for debug purpose.
+            return 1;
         }
     }
 
@@ -120,28 +122,35 @@ HELP
 
     private function precommitFileExists(): bool
     {
-        return file_exists(self::PRECOMMIT_FILE);
+        return $this->fs->exists(self::PRECOMMIT_FILE);
     }
 
     private function copyPrecommitFile(): void
     {
-        $this->getIO()->error('tester si echec de copie (source manquante) (destination existante) (harmoniser pour utilise même fs que dans Indexer');
         $this->fs->copy(self::SOURCE_PRECOMMIT_FILE, self::PRECOMMIT_FILE, true);
     }
 
     private function isPrecommitFileSymlinked(): bool
     {
-        $hookFile = $this->fs->readlink(self::PRECOMMIT_HOOK_FILE, false);
+        $gitPrecommitFile = new SplFileInfo(getcwd() . DIRECTORY_SEPARATOR . self::PRECOMMIT_HOOK_FILE);
+        $precommitFile = new SplFileInfo(getcwd() . DIRECTORY_SEPARATOR . self::PRECOMMIT_FILE);
 
-        return !(null === $hookFile || self::PRECOMMIT_FILE !== $hookFile);
+        return $gitPrecommitFile->isLink()
+            && $precommitFile->getPathname() === $gitPrecommitFile->getLinkTarget();
     }
 
     private function symLinkPrecommitFile(): void
     {
         $this->getIO()->write('Symlink to precommit hook...', false);
-        $this->fs->remove(self::PRECOMMIT_HOOK_FILE);
-        $this->fs->symlink(self::PRECOMMIT_FILE, self::PRECOMMIT_HOOK_FILE);
-        $this->getIO()->write('<info>OK</info>');
+        if (!symlink(
+            getcwd() . DIRECTORY_SEPARATOR . self::PRECOMMIT_FILE,
+            getcwd() . DIRECTORY_SEPARATOR . self::PRECOMMIT_HOOK_FILE
+        )) {
+            throw new Exception('Failed to symlink.');
+        }
+        // this does nothing (?), no error neither ...
+//        $this->fs->symlink(self::PRECOMMIT_FILE, self::PRECOMMIT_HOOK_FILE);
+        $this->getIO()->write(' <info>OK</info>');
     }
 
     private function isPrecommitFileExecutable(): bool
