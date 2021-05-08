@@ -84,6 +84,19 @@ HELP
                 ? $this->getIO()->write(sprintf('<info><comment>%s</comment> is executable.</info>', $preCommitHookFileRelativePath))
                 : $this->makePrecommitFileExecutable();
 
+            $this->getIO()->write(
+                <<<'INFOS'
+If everything is ok, before the next commit on this repository, the git precommit hook will be triggered.
+If the script is ok, commit will be performed. Otherwise the commit will be aborted.
+In case, you don't see the precommit script messages to see what needs to be fixed, you can run
+<info>composer psdt:pre-commit<info>.
+
+You can also run this command at any time, before processing the commit, stashing changes for example.
+
+You can edit the script content by editing the script entry <comment>pre-commit</comment> in <comment>composer.json</comment>.
+INFOS
+            );
+
             return 0;
         } catch (Exception $exception) {
             $this->getIO()->error(sprintf('%s failed : %s', $this->getComposerScriptName(), $exception->getMessage()));
@@ -92,6 +105,12 @@ HELP
         }
     }
 
+    /**
+     * Name of composer script.
+     * In case it change, it also needs to be changed in the information text displayed.
+     *
+     * @see execute()
+     */
     public function getComposerScriptName(): string
     {
         return 'pre-commit';
