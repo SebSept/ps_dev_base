@@ -131,9 +131,9 @@ INFOS
     private function getComposerScripts(): array
     {
         $scripts = ['composer validate'];
-        (new PrestashopDevToolsCsFixer())->isToolConfigured()
+        !(new PrestashopDevToolsCsFixer())->isToolConfigured()
             ?: array_push($scripts, 'vendor/bin/php-cs-fixer fix --dry-run --ansi');
-        (new PrestashopDevToolsPhpStan())->isToolConfigured()
+        !(new PrestashopDevToolsPhpStan())->isToolConfigured()
             ?: array_push($scripts, '@phpstan --ansi');
 
         return $scripts;
