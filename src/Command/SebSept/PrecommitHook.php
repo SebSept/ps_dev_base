@@ -67,35 +67,33 @@ HELP
 
         try {
             $preCommitHookFileRelativePath = str_replace(__DIR__ . DIRECTORY_SEPARATOR, '', self::PRECOMMIT_HOOK_FILE);
+            $composerScriptIsDefined = $this->isComposerScriptDefined();
+            $precommitFileExists = $this->precommitFileExists();
+            $precommitFileIsSymlinked = $this->isPrecommitFileSymlinked();
+            $precommitFileIsExecutable = $this->isPrecommitFileExecutable();
+            $readyToRun = $composerScriptIsDefined && $precommitFileExists && $precommitFileIsSymlinked && $precommitFileIsExecutable;
 
-            $this->isComposerScriptDefined()
+            $composerScriptIsDefined
                 ? $this->getIO()->write(sprintf('<info>Composer script %s is installed.</info>', $this->getComposerScriptName()))
                 : $this->addComposerScript($this->getComposerScripts());
 
-            $this->precommitFileExists()
+            $precommitFileExists
                 ? $this->getIO()->write(sprintf('<info>Precommit file <comment>%s</comment> is present.</info>', self::PRECOMMIT_FILE))
                 : $this->copyPrecommitFile();
 
-            $this->isPrecommitFileSymlinked()
+            $precommitFileIsSymlinked
                 ? $this->getIO()->write(sprintf('<info><comment>%s</comment> is symlinked to <comment>%s</comment></info>', self::PRECOMMIT_FILE, $preCommitHookFileRelativePath))
                 : $this->symLinkPrecommitFile();
 
-            $this->isPrecommitFileExecutable()
+            $precommitFileIsExecutable
                 ? $this->getIO()->write(sprintf('<info><comment>%s</comment> is executable.</info>', $preCommitHookFileRelativePath))
                 : $this->makePrecommitFileExecutable();
 
-            $this->getIO()->write(
-                <<<'INFOS'
-If everything is ok, before the next commit on this repository, the git precommit hook will be triggered.
-If the script is ok, commit will be performed. Otherwise the commit will be aborted.
-In case, you don't see the precommit script messages to see what needs to be fixed, you can run
-<info>composer psdt:pre-commit<info>.
+            $readyToRun
+                ? $this->runComposerScript($output)
+                : $this->getIO()->write(sprintf('run <info>%s</info> command again to run composer script <info>%s</info>', $this->getName(), $this->getComposerScriptName()));
 
-You can also run this command at any time, before processing the commit, stashing changes for example.
-
-You can edit the script content by editing the script entry <comment>pre-commit</comment> in <comment>composer.json</comment>.
-INFOS
-            );
+            $this->getIO()->write($this->getAdditionnalHelp());
 
             return 0;
         } catch (Exception $exception) {
@@ -139,7 +137,9 @@ INFOS
 
     private function copyPrecommitFile(): void
     {
+        $this->getIO()->write('Copying pre-commit script file ...', false);
         $this->fs->copy(self::SOURCE_PRECOMMIT_FILE, self::PRECOMMIT_FILE, true);
+        $this->getIO()->write('<info>OK</info>');
     }
 
     private function isPrecommitFileSymlinked(): bool
@@ -172,6 +172,22 @@ INFOS
 
     private function makePrecommitFileExecutable(): void
     {
+        $this->getIO()->write('Make pre-commit script file executable ...', false);
         $this->fs->chmod(self::PRECOMMIT_FILE, 0755);
+        $this->getIO()->write('<info>OK</info>');
+    }
+
+    private function getAdditionnalHelp(): string
+    {
+        return <<<'INFOS'
+If everything is ok, before the next commit on this repository, the git precommit hook will be triggered.
+If the script is ok, commit will be performed. Otherwise the commit will be aborted.
+In case, you don't see the precommit script messages to see what needs to be fixed, you can run
+<info>composer psdt:pre-commit<info>.
+
+You can also run this command at any time, before processing the commit, stashing changes for example.
+
+You can edit the script content by editing the script entry <info>pre-commit</info> in <comment>composer.json</comment>.
+INFOS;
     }
 }
