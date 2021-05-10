@@ -75,7 +75,7 @@ abstract class ComposerPackageCommand extends BaseCommand
                 return 0;
             }
 
-            $this->runTool();
+            $this->runComposerScript($output);
         } catch (RuntimeException $exception) {
             $this->getIO()->alert($exception->getMessage());
 
@@ -87,16 +87,6 @@ abstract class ComposerPackageCommand extends BaseCommand
         }
 
         return 0;
-    }
-
-    final protected function runTool(): void
-    {
-        $this->getApplication()->find('run-script')->run(
-            new ArrayInput([
-                'script' => $this->getComposerScriptName(),
-            ]),
-            $this->output
-        );
     }
 
     /**

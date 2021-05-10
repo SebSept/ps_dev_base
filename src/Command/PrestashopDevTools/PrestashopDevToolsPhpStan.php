@@ -99,7 +99,6 @@ HELP
         $installPhpStanConfiguration =
             new Process('php vendor/bin/prestashop-coding-standards phpstan:init --dest \'' . getcwd() . '\''); // @phpstan-ignore-line  - This is needed, see comment above
         $installPhpStanConfiguration->start();
-
         $installPhpStanConfiguration->wait();
 
         // The process is reported to be successful even if the new file was not written :(
@@ -120,12 +119,7 @@ HELP
         $prestashopPath = $this->getIO()->ask('What is the path to is this Prestashop installation ? ');
         $this->addComposerScript([
             "@putenv _PS_ROOT_DIR_=$prestashopPath",
-            $this->getComposerScriptName(), ]);
-
-        $this->getIO()
-            ->write("Composer script <comment>{$this->getComposerScriptName()}</comment> has been added to you composer.json");
-        $this->getIO()
-            ->write("You can change the path to the Prestashop installation by editing ['scripts'][{$this->getComposerScriptName()}] in your <comment>composer.json</comment>.");
+            'phpstan analyse', ]);
     }
 
     public function getComposerScriptName(): string

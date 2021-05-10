@@ -72,8 +72,8 @@ HELP
     {
         // @see \SebSept\PsDevToolsPlugin\Command\PrestashopDevTools\PrestashopDevToolsPhpStan::configureTool
         $fs = new Filesystem();
-        $csFixeronfigurationFile = getcwd() . self::PHP_CS_CONFIGURATION_FILE;
-        $fs->remove($csFixeronfigurationFile);
+        $csFixerConfigurationFile = getcwd() . self::PHP_CS_CONFIGURATION_FILE;
+        $fs->remove($csFixerConfigurationFile);
 
         // ----- add php-cs-fixer file
         $this->getIO()->write("Installation of {$this->getComposerScriptName()} configuration file : ", false);
@@ -90,10 +90,6 @@ HELP
         $this->getIO()->info(' in fact, it\'s only PROBABLY successfull.');
         $this->getIO()->info(' https://github.com/PrestaShop/php-dev-tools/issues/58');
 
-        // ----- add composer script
         $this->addComposerScript(['php-cs-fixer fix']);
-
-        $this->getIO()->write("Composer script <comment>{$this->getComposerScriptName()}</comment> has been added to you composer.json");
-        $this->getIO()->write("You can change the path to the Prestashop installation by editing ['scripts'][{$this->getComposerScriptName()}] in your <comment>composer.json</comment>.");
     }
 }
