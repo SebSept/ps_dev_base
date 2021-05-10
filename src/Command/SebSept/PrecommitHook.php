@@ -45,17 +45,17 @@ final class PrecommitHook extends ScriptCommand // implements ConfigurableComman
         $this->setHelp(
             $this->getDescription() . <<<'HELP'
 
+ * creates file <comment>precommit.sh</comment> that trigger composer script <info>pre-commit</info>
  * adds a composer script <info>pre-commit</info>
- * creates file <info>precommit.sh</info>
- * symlinks <info>precommit.sh</info> to <info>.git/hooks/precommit</info>
+ * symlinks <comment>precommit.sh</comment> to <info>.git/hooks/precommit</info>
  * next runs will trigger the composer script <info>pre-commit</info>
 
-The composer scripts by default triggers the other scripts @phpstan @csfix (dry-run) and <info>composer validate</info>.
-This is the default, you can edit the content of the script.
+The composer scripts by default triggers the other scripts <info>@phpstan</info>,  <info>@csfix</info> (dry-run) and <info>composer validate</info>.
+This is the default, you can edit the content of the script in <comment>composer.json</comment>
 
 The <comment>--reconfigure</comment> allows to resetup, rerun the 3 first steps and override contents.
 
-This is tested on GNU/Linux, it probably works fine on MacOS. Probably not on Windows (?).
+This is tested on GNU/Linux, it probably works fine on MacOS. Probably not on Windows (feedback and fix are welcome).
 
 HELP
         );
@@ -70,7 +70,7 @@ HELP
 
             $this->isComposerScriptDefined()
                 ? $this->getIO()->write(sprintf('<info>Composer script %s is installed.</info>', $this->getComposerScriptName()))
-                : $this->installComposerScript();
+                : $this->addComposerScript($this->getComposerScripts());
 
             $this->precommitFileExists()
                 ? $this->getIO()->write(sprintf('<info>Precommit file <comment>%s</comment> is present.</info>', self::PRECOMMIT_FILE))
@@ -114,13 +114,6 @@ INFOS
     public function getComposerScriptName(): string
     {
         return 'pre-commit';
-    }
-
-    private function installComposerScript(): void
-    {
-        $this->getIO()->write('Installing composer script : ', false);
-        $this->addComposerScript($this->getComposerScripts());
-        $this->getIO()->write('Ok');
     }
 
     /**
