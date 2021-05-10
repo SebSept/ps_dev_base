@@ -89,6 +89,11 @@ abstract class ComposerPackageCommand extends BaseCommand
         return 0;
     }
 
+    /**
+     * Run the command 'composer run-script <current_script>'.
+     *
+     * @throws \Exception
+     */
     final protected function runTool(): void
     {
         $this->getApplication()->find('run-script')->run(

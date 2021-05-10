@@ -34,11 +34,9 @@ abstract class BaseCommand extends ComposerBaseCommand implements BaseCommandInt
     /**
      * Set command name and prepend the common namespace.
      *
-     * @param string $name
-     *
      * @return $this
      */
-    public function setName($name): self
+    public function setName(string $name): self
     {
         return parent::setName("psdt:$name");
     }
