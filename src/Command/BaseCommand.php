@@ -23,10 +23,11 @@ namespace SebSept\PsDevToolsPlugin\Command;
 use Composer\Command\BaseCommand as ComposerBaseCommand;
 use Composer\Json\JsonFile;
 use Exception;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class BaseCommand.
- *
  * All commands in this package must extend this base command.
  */
 abstract class BaseCommand extends ComposerBaseCommand implements BaseCommandInterface
@@ -78,5 +79,20 @@ abstract class BaseCommand extends ComposerBaseCommand implements BaseCommandInt
         $composerFileContents = $this->readComposerJsonFile();
 
         return isset($composerFileContents['scripts'][$this->getComposerScriptName()]);
+    }
+
+    /**
+     * Run the command 'composer run-script <current_script>'.
+     *
+     * @throws \Exception
+     */
+    final protected function runComposerScript(OutputInterface $output): void
+    {
+        $this->getApplication()->find('run-script')->run(
+            new ArrayInput([
+                'script' => $this->getComposerScriptName(),
+            ]),
+            $output
+        );
     }
 }
