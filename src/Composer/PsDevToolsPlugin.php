@@ -28,7 +28,7 @@ use Composer\IO\IOInterface;
 use Composer\Plugin\Capable;
 use Composer\Plugin\PluginInterface;
 
-class PsDevToolsPlugin implements PluginInterface, Capable, EventSubscriberInterface
+final class PsDevToolsPlugin implements PluginInterface, Capable, EventSubscriberInterface
 {
     public function activate(Composer $composer, IOInterface $io): void
     {
@@ -47,6 +47,9 @@ class PsDevToolsPlugin implements PluginInterface, Capable, EventSubscriberInter
         $io->info('https://github.com/SebSept/ps_dev_base');
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function getCapabilities(): array
     {
         return [
@@ -81,7 +84,7 @@ class PsDevToolsPlugin implements PluginInterface, Capable, EventSubscriberInter
 
         $event->getIO()->write('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
         $event->getIO()->write('~~ <fg=magenta>Congratulation !PsDevTool is now installed</>. ~~');
-        $event->getIO()->write('~~ run <comment>composer list psdt</comment> to get started.     ~~');
+        $event->getIO()->write('~~ run <info>composer list psdt</info> to get started.     ~~');
         $event->getIO()->write('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
     }
 }
