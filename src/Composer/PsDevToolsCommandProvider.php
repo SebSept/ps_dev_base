@@ -26,7 +26,7 @@ use SebSept\PsDevToolsPlugin\Command\PrestashopDevTools\PrestashopDevToolsPhpSta
 use SebSept\PsDevToolsPlugin\Command\SebSept\HelloCommand;
 use SebSept\PsDevToolsPlugin\Command\SebSept\IndexPhpFiller;
 
-class PsDevToolsCommandProvider implements CommandProvider
+final class PsDevToolsCommandProvider implements CommandProvider
 {
     public function getCommands(): array
     {

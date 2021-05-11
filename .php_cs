@@ -7,6 +7,7 @@ $finder = PhpCsFixer\Finder::create()
 ;
 
 $config = new PhpCsFixer\Config();
+$config->setRiskyAllowed(true);
 return $config->setRules([
     '@Symfony' => true,
     'header_comment' => [
@@ -18,6 +19,7 @@ return $config->setRules([
     'concat_space' => [
         'spacing' => 'one'
     ],
+    'final_class' => true
 ])
     ->setFinder($finder)
     ;

@@ -24,7 +24,7 @@ use Composer\Util\Filesystem;
 use RuntimeException;
 use Symfony\Component\Process\Process;
 
-class PrestashopDevToolsCsFixer extends PrestashopDevTools
+final class PrestashopDevToolsCsFixer extends PrestashopDevTools
 {
     const PHP_CS_CONFIGURATION_FILE = '/.php_cs.dist';
 

@@ -24,7 +24,7 @@ use Composer\Command\BaseCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class HelloCommand extends BaseCommand
+final class HelloCommand extends BaseCommand
 {
     protected function configure(): void
     {
