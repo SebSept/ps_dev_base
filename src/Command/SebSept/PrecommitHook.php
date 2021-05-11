@@ -26,6 +26,7 @@ use SebSept\PsDevToolsPlugin\Command\PrestashopDevTools\PrestashopDevToolsPhpSta
 use SebSept\PsDevToolsPlugin\Command\ScriptCommand;
 use SplFileInfo;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -42,6 +43,7 @@ final class PrecommitHook extends ScriptCommand // implements ConfigurableComman
     {
         $this->setName('install-precommit-hook');
         $this->setDescription('Install a git pre-commit hook');
+        $this->addOption('reconfigure', null, InputOption::VALUE_NONE, 'rerun configuration and file installations.');
         $this->setHelp(
             $this->getDescription() . <<<'HELP'
 
@@ -63,15 +65,22 @@ HELP
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->fs = new Filesystem();
-
         try {
+            $this->fs = new Filesystem();
+            /** @var bool $reconfigure */
+            $reconfigure = $input->getOption('reconfigure');
             $preCommitHookFileRelativePath = str_replace(__DIR__ . DIRECTORY_SEPARATOR, '', self::PRECOMMIT_HOOK_FILE);
-            $composerScriptIsDefined = $this->isComposerScriptDefined();
-            $precommitFileExists = $this->precommitFileExists();
-            $precommitFileIsSymlinked = $this->isPrecommitFileSymlinked();
-            $precommitFileIsExecutable = $this->isPrecommitFileExecutable();
-            $readyToRun = $composerScriptIsDefined && $precommitFileExists && $precommitFileIsSymlinked && $precommitFileIsExecutable;
+
+            if ($reconfigure) {
+                $composerScriptIsDefined = $precommitFileExists = $precommitFileIsSymlinked = $precommitFileIsExecutable = $readyToRun
+                    = false;
+            } else {
+                $composerScriptIsDefined = $this->isComposerScriptDefined();
+                $precommitFileExists = $this->precommitFileExists();
+                $precommitFileIsSymlinked = $this->isPrecommitFileSymlinked();
+                $precommitFileIsExecutable = $this->isPrecommitFileExecutable();
+                $readyToRun = $composerScriptIsDefined && $precommitFileExists && $precommitFileIsSymlinked && $precommitFileIsExecutable;
+            }
 
             $composerScriptIsDefined
                 ? $this->getIO()->write(sprintf('<info>Composer script %s is installed.</info>', $this->getComposerScriptName()))
@@ -89,11 +98,11 @@ HELP
                 ? $this->getIO()->write(sprintf('<info><comment>%s</comment> is executable.</info>', $preCommitHookFileRelativePath))
                 : $this->makePrecommitFileExecutable();
 
+            $reconfigure && $this->getIO()->write($this->getAdditionnalHelp());
+
             $readyToRun
                 ? $this->runComposerScript($output)
                 : $this->getIO()->write(sprintf('run <info>%s</info> command again to run composer script <info>%s</info>', $this->getName(), $this->getComposerScriptName()));
-
-            $this->getIO()->write($this->getAdditionnalHelp());
 
             return 0;
         } catch (Exception $exception) {
@@ -180,13 +189,11 @@ HELP
     private function getAdditionnalHelp(): string
     {
         return <<<'INFOS'
-If everything is ok, before the next commit on this repository, the git precommit hook will be triggered.
-If the script is ok, commit will be performed. Otherwise the commit will be aborted.
-In case, you don't see the precommit script messages to see what needs to be fixed, you can run
-<info>composer psdt:pre-commit<info>.
-
+Before the next commit the git precommit hook will be triggered.
+If the pre-commit script return 0 (success), commit will be performed, otherwise aborted.
+In case, you can't read the precommit script output and find what's wrong
+just run <info>composer psdt:pre-commit</info> .
 You can also run this command at any time, before processing the commit, stashing changes for example.
-
 You can edit the script content by editing the script entry <info>pre-commit</info> in <comment>composer.json</comment>.
 INFOS;
     }
