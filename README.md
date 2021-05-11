@@ -11,7 +11,7 @@ composer list psdt
 
 ## Requirements 
 
-The single requirement is just to have composer installed.
+The single requirement is just to have composer 2 installed (not composer 1.x).
 If you do not have composer, you can leave this page and [start learning it](https://getcomposer.org/).
 
 For easier use, I highly suggest to use command line autocompletion for composer.  
