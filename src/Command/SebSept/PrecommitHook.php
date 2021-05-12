@@ -134,7 +134,7 @@ HELP
         !(new PrestashopDevToolsCsFixer())->isToolConfigured()
             ?: array_push($scripts, 'vendor/bin/php-cs-fixer fix --dry-run --ansi');
         !(new PrestashopDevToolsPhpStan())->isToolConfigured()
-            ?: array_push($scripts, '@phpstan --ansi');
+            ?: array_push($scripts, '@phpstan');
 
         return $scripts;
     }
@@ -162,15 +162,23 @@ HELP
 
     private function symLinkPrecommitFile(): void
     {
+        $gitLink = getcwd() . DIRECTORY_SEPARATOR . self::PRECOMMIT_HOOK_FILE;
+        $precommitScript = getcwd() . DIRECTORY_SEPARATOR . self::PRECOMMIT_FILE;
+
+        // remove existing git file
+        if (file_exists($gitLink)) {
+            $this->getIO()->write('Removing git hook...', false);
+            if (!unlink($gitLink)) {
+                throw new Exception('Failed to remove existing pre-commit file ' . $gitLink);
+            }
+            $this->getIO()->write(' <info>OK</info>');
+        }
+
+        // create symlink
         $this->getIO()->write('Symlink to precommit hook...', false);
-        if (!symlink(
-            getcwd() . DIRECTORY_SEPARATOR . self::PRECOMMIT_FILE,
-            getcwd() . DIRECTORY_SEPARATOR . self::PRECOMMIT_HOOK_FILE
-        )) {
+        if (!symlink($precommitScript, $gitLink)) {
             throw new Exception('Failed to symlink.');
         }
-        // this does nothing (?), no error neither ...
-//        $this->fs->symlink(self::PRECOMMIT_FILE, self::PRECOMMIT_HOOK_FILE);
         $this->getIO()->write(' <info>OK</info>');
     }
 
@@ -189,10 +197,12 @@ HELP
     private function getAdditionnalHelp(): string
     {
         return <<<'INFOS'
+
 Before the next commit the git precommit hook will be triggered.
 If the pre-commit script return 0 (success), commit will be performed, otherwise aborted.
 In case, you can't read the precommit script output and find what's wrong
 just run <info>composer psdt:pre-commit</info> .
+
 You can also run this command at any time, before processing the commit, stashing changes for example.
 You can edit the script content by editing the script entry <info>pre-commit</info> in <comment>composer.json</comment>.
 INFOS;
