@@ -91,19 +91,17 @@ My replacement is simpler and doesn't require additionnal dependencies.
 
 ### Git Pre-commit hook installer
 
-`composer psdt:fill-indexes`
+`composer psdt:install-precommit-hook`
 
-This command need to be run only once.
-It does :
-- add a composer script `pre-commit`
 - add file `precommit.sh`
+- symlink it to `.git/hooks/pre-commit`
 - make it executable
-- symlink it to .git/hooks/pre-commit
+- add a composer script `pre-commit`
 
-So before a commit is can be performed the composer script `pre-commit` must succeed (return 0).
+Before a commit is performed the composer script `pre-commit` will be triggered and must succeed (return 0), otherwise the commit is aborted.
 
 You can tweak the script by just editing the composer script.  
-You can run the `pre-commit` at any time `composer
+You can run the `composer psdt:install-precommit-hook` or `composer run-script pre-commit` to predict if commit will fail or not. 
 
 ## Installation
 
