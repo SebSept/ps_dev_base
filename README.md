@@ -65,15 +65,18 @@ Allows complying with the [Prestashop standards](https://devdocs.prestashop.com/
 
 `composer psdt:phpstan [--reconfigure]`
 
-Run Phpstan from prestashop/prestashop-dev-tools.
+Run phpstan configured with  [Prestashop standards](https://devdocs.prestashop.com/1.7/development/coding-standards/) against a PrestaShop installation.
 
-Just like psdt:php-cs-fixer, the first run install the package and creates/overrides the phpstan.neon configuration with Prestashop standards.
+The first run or `composer psdt:phpstan --reconfigure` do : 
+  - install `prestashop/prestashop-dev-tools` if needed
+  - creates/overrides the phpstan.neon configuration with Prestashop standards.
+  - ask for the path to a PrestaShop installation (needed for analyse)
+  - install a composer script `phpstan`
+
+The next runs will run the tool (trigger `composer psdt:phpstan`)
 
 Provided by [PrestaShop/php-dev-tools/](https://github.com/PrestaShop/php-dev-tools/).  
 Autoinstallation provided by this package.
-
-Allows complying with the [Prestashop standards](https://devdocs.prestashop.com/1.7/development/coding-standards/).
-
 
 ### fill-indexes
 
