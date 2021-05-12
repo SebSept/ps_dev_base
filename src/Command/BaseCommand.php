@@ -90,6 +90,8 @@ abstract class BaseCommand extends ComposerBaseCommand implements BaseCommandInt
      */
     final protected function runComposerScript(OutputInterface $output): void
     {
+        $output->write(sprintf('Now running composer script <info>%s</info> : ', $this->getComposerScriptName()));
+
         $this->getApplication()->find('run-script')->run(
             new ArrayInput([
                 'script' => $this->getComposerScriptName(),

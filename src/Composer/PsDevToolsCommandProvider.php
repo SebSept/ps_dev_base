@@ -25,6 +25,7 @@ use SebSept\PsDevToolsPlugin\Command\PrestashopDevTools\PrestashopDevToolsCsFixe
 use SebSept\PsDevToolsPlugin\Command\PrestashopDevTools\PrestashopDevToolsPhpStan;
 use SebSept\PsDevToolsPlugin\Command\SebSept\HelloCommand;
 use SebSept\PsDevToolsPlugin\Command\SebSept\IndexPhpFiller;
+use SebSept\PsDevToolsPlugin\Command\SebSept\PrecommitHook;
 
 final class PsDevToolsCommandProvider implements CommandProvider
 {
@@ -35,6 +36,7 @@ final class PsDevToolsCommandProvider implements CommandProvider
             new PrestashopDevToolsPhpStan(),
             new PrestashopDevToolsCsFixer(),
             new IndexPhpFiller(),
+            new PrecommitHook(),
             ];
     }
 }
