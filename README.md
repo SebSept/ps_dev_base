@@ -19,17 +19,12 @@ There's a couple options available, [this one](https://github.com/bamarni/symfon
 
 ## Featured tools
 
-This is just a starting point.
-
 - Code formating : [php-cs-fixer](https://github.com/FriendsOfPhp/PHP-CS-Fixer) configured using prestashop standard, ready to use out of the box.
 - Code analysis : [phpstan](https://phpstan.org/) almost ready to use with Prestashop standard, it asks a question then you're ready. 
 - `fill-indexes` command, to add required index.php files. (see below for details)
 - git pre-commit hook installer (details below)
 
-More tools will come 
-- [prestashop/header-stamp](https://github.com/PrestaShopCorp/header-stamp/) (update license header in files)
-- GitHub actions
-- ...
+More tools will come ...
 
 ## How does it work ?
 
@@ -95,6 +90,8 @@ I can't include [prestashop/autoindex](https://github.com/PrestaShopCorp/autoind
 My replacement is simpler and doesn't require additionnal dependencies.
 
 ### Git Pre-commit hook installer
+
+`composer psdt:fill-indexes`
 
 This command need to be run only once.
 It does :
