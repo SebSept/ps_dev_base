@@ -20,7 +20,7 @@ There's a couple options available, [this one](https://github.com/bamarni/symfon
 ## Featured tools
 
 - Code formating : [php-cs-fixer](https://github.com/FriendsOfPhp/PHP-CS-Fixer) configured using prestashop standard, ready to use out of the box.
-- Code analysis : [phpstan](https://phpstan.org/) almost ready to use with Prestashop standard, it asks a question then you're ready. 
+- Code analysis : [phpstan](https://phpstan.org/) autodetect PrestaShop root directory or  asks (nothing more to do). 
 - `fill-indexes` command, to add required index.php files. (see below for details)
 - git pre-commit hook installer (details below)
 
@@ -70,10 +70,10 @@ Run phpstan configured with  [Prestashop standards](https://devdocs.prestashop.c
 The first run or `composer psdt:phpstan --reconfigure` do : 
   - install `prestashop/prestashop-dev-tools` if needed
   - creates/overrides the phpstan.neon configuration with Prestashop standards.
-  - ask for the path to a PrestaShop installation (needed for analyse)
+  - guess the \_PS_ROOT_DIR_ and asks for confirmation (or you can provide another path) (this path is needed for analyse)
   - install a composer script `phpstan`
 
-The next runs will run the tool (trigger `composer psdt:phpstan`)
+The next runs will trigger `composer psdt:phpstan`
 
 Provided by [PrestaShop/php-dev-tools/](https://github.com/PrestaShop/php-dev-tools/).  
 Autoinstallation provided by this package.
