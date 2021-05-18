@@ -62,7 +62,6 @@ HELP
 
     /**
      * Is Tool configurated ?
-     *
      * Tool is considered configured if
      * - phpstan.neon exists
      * - "phpstan" composer script exists.
@@ -85,8 +84,17 @@ HELP
      */
     public function configureTool(): void
     {
-        // ----- add phpstan.neon
+        $this->copyPhpStanNeonFile();
+        $this->askPrestashopPathAndAddComposerScripts();
+    }
 
+    public function getComposerScriptName(): string
+    {
+        return 'phpstan';
+    }
+
+    private function copyPhpStanNeonFile(): void
+    {
         // first, delete the file, otherwise the installation process does not write the new file.
         // https://github.com/PrestaShop/php-dev-tools/issues/58
         // that's a bit touchy, it relies on the fact the file name won't change. Otherwise our workaround will fail.
@@ -113,17 +121,21 @@ HELP
         $this->getIO()->write('<bg=green>successful</bg=green>');
         $this->getIO()->info(' in fact, it\'s only PROBABLY successfull.');
         $this->getIO()->info(' https://github.com/PrestaShop/php-dev-tools/issues/58');
+    }
 
-        // ------ add composer script
+    /**
+     * @throws \Seld\JsonLint\ParsingException
+     */
+    private function askPrestashopPathAndAddComposerScripts(): void
+    {
         $this->getIO()->write('To perform code analyse, phpstan needs a path to a Prestashop installation.');
-        $prestashopPath = $this->getIO()->ask('What is the path to is this Prestashop installation ? ');
+        $guessedPsRoot = realpath(getcwd() . '/../../') ?: '';
+        $prestashopPath = $this->getIO()->ask(
+            sprintf('What is the path to is this Prestashop installation %s ? ', '(leave blank to use <comment>' . $guessedPsRoot . '</comment>)'),
+            $guessedPsRoot
+        );
         $this->addComposerScript([
             "@putenv _PS_ROOT_DIR_=$prestashopPath",
             'phpstan analyse', ]);
-    }
-
-    public function getComposerScriptName(): string
-    {
-        return 'phpstan';
     }
 }
