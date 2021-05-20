@@ -35,7 +35,9 @@ jobs:
         with:
           php-version: '${{ matrix.php-version }}'
 
-      - run: composer install --no-dev -o
+      - run: |
+          composer --version | grep '3\.[0-9]' --silent || (echo 'version de composer invalide';composer --version;exit 1 )
+          composer --version && composer install -o
 
       - name: "Extract Prestashop"
         if: steps.cache_prestashop_source.outputs.cache-hit != 'true'
