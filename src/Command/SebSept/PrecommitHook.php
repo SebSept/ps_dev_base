@@ -130,7 +130,7 @@ HELP
      */
     private function getComposerScripts(): array
     {
-        $scripts = ['composer validate'];
+        $scripts = ['composer validate', '@composer psdt:fill-indexes --check-only -v'];
         !(new PrestashopDevToolsCsFixer())->isToolConfigured()
             ?: array_push($scripts, 'vendor/bin/php-cs-fixer fix --dry-run --ansi');
         !(new PrestashopDevToolsPhpStan())->isToolConfigured()
