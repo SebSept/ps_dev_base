@@ -20,9 +20,11 @@ declare(strict_types=1);
 
 namespace SebSept\PsDevToolsPlugin\Command\SebSept;
 
+use Composer\IO\IOInterface;
 use Exception;
 use SebSept\PsDevToolsPlugin\Command\ScriptCommand;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
@@ -41,11 +43,15 @@ final class IndexPhpFiller extends ScriptCommand
         $this->setHelp($this->getDescription() . <<<'HELP'
 
     This is a security requirement of Prestashop to avoid the contents to be listed.
+    
+    The command adds all the missing <comment>index.php</comment> files unless you add the <info>--check-only</info> option.
+    With <info>--check-only</info> option the command returns 1 if some files are missing. 0 if all required files are present.
 
     More informations on the official documentation.
     https://devdocs.prestashop.com/1.7/modules/sell/techvalidation-checklist/#a-file-indexphp-exists-in-each-folder
 HELP
-        );
+        )
+            ->addOption('check-only', null, InputOption::VALUE_NONE, 'Checks if index.php are missing');
         parent::configure();
     }
 
@@ -57,10 +63,14 @@ HELP
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->fs = new Filesystem();
+        if ($input->getOption('check-only')) {
+            return $this->checkMissingIndexes();
+        }
+
         $this->getIO()->write('Adding missing index.php to all directories.'
             . PHP_EOL . '<comment>Existing index.php are not replaced.</comment>');
         try {
-            $this->recursivelyAddIndexes();
+            $this->addMissingIndexFiles();
             $this->getIO()->write('<info>Done</info>');
 
             return 0;
@@ -71,15 +81,9 @@ HELP
         }
     }
 
-    private function recursivelyAddIndexes(): void
+    private function addMissingIndexFiles(): void
     {
-        $directoryIterator = (new Finder())
-            ->in($this->getcwd())
-            ->directories()
-            ->exclude('vendor')
-            ->getIterator();
-
-        foreach ($directoryIterator as $fileInfo) {
+        foreach ($this->getDirectoryIterator() as $fileInfo) {
             $this->addIndex($fileInfo);
         }
     }
@@ -90,6 +94,28 @@ HELP
         $fancyName = str_replace($this->getcwd(), '.', $target);
         $this->getIO()->info(sprintf('Add index.php if missing at %s', $fancyName));
         $this->fs->copy($this->getSourceIndexPath(), $target);
+    }
+
+    private function checkMissingIndexes(): int
+    {
+        $missingIndexFiles = [];
+
+        foreach ($this->getDirectoryIterator() as $fileInfo) {
+            $indexPhpPath = $fileInfo->getPathname() . '/index.php';
+            $this->fs->exists($indexPhpPath) ?: array_push($missingIndexFiles, $indexPhpPath);
+        }
+
+        if (empty($missingIndexFiles)) {
+            $this->getIO()->write('Good : no missing index files.');
+
+            return 0;
+        }
+
+        $this->getIO()->write(':( Missing index.php files.');
+        $this->getIO()->write($missingIndexFiles, true, IOInterface::VERBOSE);
+        $this->getIO()->write(['Use <info>-v</info> option to list missing files', 'Remove <info>--check-only</info> option to add missing files.']);
+
+        return 1;
     }
 
     private function getSourceIndexPath(): string
@@ -105,5 +131,19 @@ HELP
         }
 
         return $cwd;
+    }
+
+    /**
+     * @return \AppendIterator|\Iterator|\RecursiveIteratorIterator|\Symfony\Component\Finder\Iterator\CustomFilterIterator|\Symfony\Component\Finder\Iterator\DateRangeFilterIterator|\Symfony\Component\Finder\Iterator\DepthRangeFilterIterator|\Symfony\Component\Finder\Iterator\FilecontentFilterIterator|\Symfony\Component\Finder\Iterator\FilenameFilterIterator|\Symfony\Component\Finder\Iterator\FileTypeFilterIterator|\Symfony\Component\Finder\Iterator\PathFilterIterator|\Symfony\Component\Finder\Iterator\SizeRangeFilterIterator|\Symfony\Component\Finder\SplFileInfo[]
+     */
+    private function getDirectoryIterator()
+    {
+        $directoryIterator = (new Finder())
+            ->in($this->getcwd())
+            ->directories()
+            ->exclude('vendor')
+            ->getIterator();
+
+        return $directoryIterator;
     }
 }
