@@ -20,10 +20,11 @@ declare(strict_types=1);
 
 namespace SebSept\PsDevToolsPlugin\Command\SebSept;
 
+use Composer\Command\BaseCommand as ComposerBaseCommand;
 use Exception;
-use SebSept\PsDevToolsPlugin\Command\PrestashopDevTools\PrestashopDevToolsCsFixer;
-use SebSept\PsDevToolsPlugin\Command\PrestashopDevTools\PrestashopDevToolsPhpStan;
 use SebSept\PsDevToolsPlugin\Command\ScriptCommand;
+use SebSept\PsDevToolsPlugin\Command\SebSept\Contract\PreCommitRegistrableCommand;
+use SebSept\PsDevToolsPlugin\Composer\PsDevToolsCommandProvider;
 use SplFileInfo;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -130,11 +131,20 @@ HELP
      */
     private function getComposerScripts(): array
     {
-        $scripts = ['composer validate'];
-        !(new PrestashopDevToolsCsFixer())->isToolConfigured()
-            ?: array_push($scripts, 'vendor/bin/php-cs-fixer fix --dry-run --ansi');
-        !(new PrestashopDevToolsPhpStan())->isToolConfigured()
-            ?: array_push($scripts, '@phpstan');
+        $composerPluginCommands = (new PsDevToolsCommandProvider())->getCommands();
+        $preCommitRegistrableCommands = array_reduce($composerPluginCommands, static function (array $commands, ComposerBaseCommand $command) {
+            !($command instanceof PreCommitRegistrableCommand) ?: array_push($commands, $command);
+
+            return $commands;
+        }, []);
+
+        $scripts = array_map(
+            static function (PreCommitRegistrableCommand $command) {
+                return $command->getComposerPrecommitScriptContent();
+            },
+            $preCommitRegistrableCommands
+        );
+        $scripts[] = 'composer validate';
 
         return $scripts;
     }
