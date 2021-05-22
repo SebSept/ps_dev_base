@@ -150,6 +150,6 @@ HELP
 
     public function getComposerPrecommitScriptContent(): ?string
     {
-        return '';
+        return 'composer psdt:fill-indexes --check-only';
     }
 }
