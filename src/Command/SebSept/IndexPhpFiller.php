@@ -89,6 +89,8 @@ HELP
         foreach ($this->getDirectoryIterator() as $fileInfo) {
             $this->addIndex($fileInfo);
         }
+        // also at the root - I haven't found a way to include it in the iterator :/
+        $this->addIndex(new \SplFileInfo($this->getcwd()));
     }
 
     private function addIndex(\SplFileInfo $splFileInfo): void
@@ -107,6 +109,8 @@ HELP
             $indexPhpPath = $fileInfo->getPathname() . '/index.php';
             $this->fs->exists($indexPhpPath) ?: array_push($missingIndexFiles, $indexPhpPath);
         }
+        // plus index.php at root
+        $this->fs->exists($this->getcwd() . '/index.php') ?: array_push($missingIndexFiles, './index.php');
 
         if (empty($missingIndexFiles)) {
             $this->getIO()->write('Good : no missing index files.');
@@ -148,6 +152,8 @@ HELP
         return (new Finder())
             ->in($this->getcwd())
             ->directories()
+            ->ignoreDotFiles(false)
+            ->ignoreVCS(true)
             ->exclude('vendor')
             ->getIterator();
     }
