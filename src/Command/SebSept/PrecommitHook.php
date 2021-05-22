@@ -20,10 +20,11 @@ declare(strict_types=1);
 
 namespace SebSept\PsDevToolsPlugin\Command\SebSept;
 
+use Composer\Command\BaseCommand as ComposerBaseCommand;
 use Exception;
-use SebSept\PsDevToolsPlugin\Command\PrestashopDevTools\PrestashopDevToolsCsFixer;
-use SebSept\PsDevToolsPlugin\Command\PrestashopDevTools\PrestashopDevToolsPhpStan;
+use SebSept\PsDevToolsPlugin\Command\Contract\PreCommitRegistrableCommand;
 use SebSept\PsDevToolsPlugin\Command\ScriptCommand;
+use SebSept\PsDevToolsPlugin\Composer\PsDevToolsCommandProvider;
 use SplFileInfo;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -130,11 +131,22 @@ HELP
      */
     private function getComposerScripts(): array
     {
-        $scripts = ['composer validate', '@composer psdt:fill-indexes --check-only -v'];
-        !(new PrestashopDevToolsCsFixer())->isToolConfigured()
-            ?: array_push($scripts, 'vendor/bin/php-cs-fixer fix --dry-run --ansi');
-        !(new PrestashopDevToolsPhpStan())->isToolConfigured()
-            ?: array_push($scripts, '@phpstan');
+        $composerPluginCommands = (new PsDevToolsCommandProvider())->getCommands();
+        $preCommitRegistrableCommands = array_reduce($composerPluginCommands, static function (array $commands, ComposerBaseCommand $command) {
+            !($command instanceof PreCommitRegistrableCommand) ?: array_push($commands, $command);
+
+            return $commands;
+        }, []);
+
+        $scripts = array_filter(
+            array_map(
+                static function (PreCommitRegistrableCommand $command) {
+                    return $command->getComposerPrecommitScriptContent();
+                },
+                $preCommitRegistrableCommands
+            )
+        );
+        $scripts[] = 'composer validate';
 
         return $scripts;
     }
@@ -201,9 +213,9 @@ HELP
 Before the next commit the git precommit hook will be triggered.
 If the pre-commit script return 0 (success), commit will be performed, otherwise aborted.
 In case, you can't read the precommit script output and find what's wrong
-just run <info>composer psdt:pre-commit</info> .
+just run <info>composer run-script pre-commit</info> .
 
-You can also run this command at any time, before processing the commit, stashing changes for example.
+Run this command at any time, before processing the commit, stashing changes for example.
 You can edit the script content by editing the script entry <info>pre-commit</info> in <comment>composer.json</comment>.
 INFOS;
     }

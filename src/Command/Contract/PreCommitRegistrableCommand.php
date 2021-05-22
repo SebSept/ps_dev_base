@@ -18,9 +18,17 @@
 
 declare(strict_types=1);
 
-namespace SebSept\PsDevToolsPlugin\Command;
+namespace SebSept\PsDevToolsPlugin\Command\Contract;
 
-interface BaseCommandInterface
+/**
+ * Interface PreCommitRegistrableCommand.
+ *
+ * The command which implements this interface can be registered inside the composer 'pre-commit' script
+ */
+interface PreCommitRegistrableCommand
 {
-    public function getComposerScriptName(): string;
+    /**
+     * Contents to write inside composer.json file, in the pre-commit script.
+     */
+    public function getComposerPrecommitScriptContent(): ?string;
 }
