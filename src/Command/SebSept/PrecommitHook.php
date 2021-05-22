@@ -213,9 +213,9 @@ HELP
 Before the next commit the git precommit hook will be triggered.
 If the pre-commit script return 0 (success), commit will be performed, otherwise aborted.
 In case, you can't read the precommit script output and find what's wrong
-just run <info>composer psdt:pre-commit</info> .
+just run <info>composer run-script pre-commit</info> .
 
-You can also run this command at any time, before processing the commit, stashing changes for example.
+Run this command at any time, before processing the commit, stashing changes for example.
 You can edit the script content by editing the script entry <info>pre-commit</info> in <comment>composer.json</comment>.
 INFOS;
     }
