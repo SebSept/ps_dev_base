@@ -114,9 +114,13 @@ HELP
             return 0;
         }
 
-        $this->getIO()->write(':( Missing index.php files.');
+        $this->getIO()->write('<fg=red>✗ Missing index.php files.</>');
+        $this->getIO()->write('Missing index.php : ', true, IOInterface::VERBOSE);
         $this->getIO()->write($missingIndexFiles, true, IOInterface::VERBOSE);
-        $this->getIO()->write(['Use <info>-v</info> option to list missing files', 'Remove <info>--check-only</info> option to add missing files.']);
+        $this->getIO()->write([
+            sprintf('Run <info>composer psdt:%s --check-only -v</info> option to list missing files', $this->getName()),
+            sprintf('Or run <info>composer psdt:%s</info> to add missing files.', $this->getName()),
+        ]);
 
         return 1;
     }
