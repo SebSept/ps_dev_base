@@ -22,6 +22,7 @@ namespace SebSept\PsDevToolsPlugin\Command\SebSept;
 
 use Composer\IO\IOInterface;
 use Exception;
+use SebSept\PsDevToolsPlugin\Command\Contract\PreCommitRegistrableCommand;
 use SebSept\PsDevToolsPlugin\Command\ScriptCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -29,7 +30,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
-final class IndexPhpFiller extends ScriptCommand
+final class IndexPhpFiller extends ScriptCommand implements PreCommitRegistrableCommand
 {
     const SOURCE_INDEX_FILE = '/../../../resources/index.php';
 
@@ -62,6 +63,8 @@ HELP
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->isComposerScriptDefined() ?: $this->addComposerScript(['composer psdt:fill-indexes']);
+
         $this->fs = new Filesystem();
         if ($input->getOption('check-only')) {
             return $this->checkMissingIndexes();
@@ -138,12 +141,15 @@ HELP
      */
     private function getDirectoryIterator()
     {
-        $directoryIterator = (new Finder())
+        return (new Finder())
             ->in($this->getcwd())
             ->directories()
             ->exclude('vendor')
             ->getIterator();
+    }
 
-        return $directoryIterator;
+    public function getComposerPrecommitScriptContent(): ?string
+    {
+        return '';
     }
 }
