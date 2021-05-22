@@ -22,8 +22,8 @@ namespace SebSept\PsDevToolsPlugin\Command\SebSept;
 
 use Composer\Command\BaseCommand as ComposerBaseCommand;
 use Exception;
+use SebSept\PsDevToolsPlugin\Command\Contract\PreCommitRegistrableCommand;
 use SebSept\PsDevToolsPlugin\Command\ScriptCommand;
-use SebSept\PsDevToolsPlugin\Command\SebSept\Contract\PreCommitRegistrableCommand;
 use SebSept\PsDevToolsPlugin\Composer\PsDevToolsCommandProvider;
 use SplFileInfo;
 use Symfony\Component\Console\Input\InputInterface;
@@ -138,11 +138,13 @@ HELP
             return $commands;
         }, []);
 
-        $scripts = array_map(
-            static function (PreCommitRegistrableCommand $command) {
-                return $command->getComposerPrecommitScriptContent();
-            },
-            $preCommitRegistrableCommands
+        $scripts = array_filter(
+            array_map(
+                static function (PreCommitRegistrableCommand $command) {
+                    return $command->getComposerPrecommitScriptContent();
+                },
+                $preCommitRegistrableCommands
+            )
         );
         $scripts[] = 'composer validate';
 

@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace SebSept\PsDevToolsPlugin\Command\SebSept\Contract;
+namespace SebSept\PsDevToolsPlugin\Command\Contract;
 
 /**
  * Interface PreCommitRegistrableCommand.
@@ -30,5 +30,5 @@ interface PreCommitRegistrableCommand
     /**
      * Contents to write inside composer.json file, in the pre-commit script.
      */
-    public function getComposerPrecommitScriptContent(): string;
+    public function getComposerPrecommitScriptContent(): ?string;
 }
