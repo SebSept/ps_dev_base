@@ -23,6 +23,7 @@ namespace SebSept\PsDevToolsPlugin\Command;
 use Composer\Command\BaseCommand as ComposerBaseCommand;
 use Composer\Json\JsonFile;
 use Exception;
+use SebSept\PsDevToolsPlugin\Command\Contract\BaseCommandInterface;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
 

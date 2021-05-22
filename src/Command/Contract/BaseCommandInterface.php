@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace SebSept\PsDevToolsPlugin\Command;
+namespace SebSept\PsDevToolsPlugin\Command\Contract;
 
 interface BaseCommandInterface
 {
