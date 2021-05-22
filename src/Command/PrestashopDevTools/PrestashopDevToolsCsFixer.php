@@ -22,9 +22,10 @@ namespace SebSept\PsDevToolsPlugin\Command\PrestashopDevTools;
 
 use Composer\Util\Filesystem;
 use RuntimeException;
+use SebSept\PsDevToolsPlugin\Command\Contract\PreCommitRegistrableCommand;
 use Symfony\Component\Process\Process;
 
-final class PrestashopDevToolsCsFixer extends PrestashopDevTools
+final class PrestashopDevToolsCsFixer extends PrestashopDevTools implements PreCommitRegistrableCommand
 {
     const PHP_CS_CONFIGURATION_FILE = '/.php_cs.dist';
 
@@ -91,5 +92,12 @@ HELP
         $this->getIO()->info(' https://github.com/PrestaShop/php-dev-tools/issues/58');
 
         $this->addComposerScript(['php-cs-fixer fix']);
+    }
+
+    public function getComposerPrecommitScriptContent(): ?string
+    {
+        return $this->isToolConfigured() && $this->isComposerScriptDefined()
+            ? 'vendor/bin/php-cs-fixer fix --dry-run --ansi'
+            : null;
     }
 }

@@ -23,6 +23,7 @@ namespace SebSept\PsDevToolsPlugin\Command;
 use Composer\Command\BaseCommand as ComposerBaseCommand;
 use Composer\Json\JsonFile;
 use Exception;
+use SebSept\PsDevToolsPlugin\Command\Contract\BaseCommandInterface;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -72,7 +73,7 @@ abstract class BaseCommand extends ComposerBaseCommand implements BaseCommandInt
     final protected function addComposerScript(array $scripts): void
     {
         $composerFileContents = $this->readComposerJsonFile();
-        $composerFileContents['scripts'][$this->getComposerScriptName()] = $scripts;
+        $composerFileContents['scripts'][$this->getComposerScriptName()] = array_values($scripts);
         $this->writeComposerJsonFile($composerFileContents);
     }
 

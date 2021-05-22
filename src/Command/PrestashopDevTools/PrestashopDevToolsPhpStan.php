@@ -23,9 +23,10 @@ namespace SebSept\PsDevToolsPlugin\Command\PrestashopDevTools;
 use Composer\Util\Filesystem;
 use Exception;
 use RuntimeException;
+use SebSept\PsDevToolsPlugin\Command\Contract\PreCommitRegistrableCommand;
 use Symfony\Component\Process\Process;
 
-final class PrestashopDevToolsPhpStan extends PrestashopDevTools
+final class PrestashopDevToolsPhpStan extends PrestashopDevTools implements PreCommitRegistrableCommand
 {
     const PHPSTAN_CONFIGURATION_FILE = '/phpstan.neon';
 
@@ -137,5 +138,10 @@ HELP
         $this->addComposerScript([
             "@putenv _PS_ROOT_DIR_=$prestashopPath",
             'phpstan analyse', ]);
+    }
+
+    public function getComposerPrecommitScriptContent(): ?string
+    {
+        return $this->isToolConfigured() && $this->isComposerScriptDefined() ? '@phpstan' : null;
     }
 }
