@@ -72,7 +72,7 @@ abstract class BaseCommand extends ComposerBaseCommand implements BaseCommandInt
     final protected function addComposerScript(array $scripts): void
     {
         $composerFileContents = $this->readComposerJsonFile();
-        $composerFileContents['scripts'][$this->getComposerScriptName()] = $scripts;
+        $composerFileContents['scripts'][$this->getComposerScriptName()] = array_values($scripts);
         $this->writeComposerJsonFile($composerFileContents);
     }
 
