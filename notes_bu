@@ -1,0 +1,74 @@
+# todo
+
+
+# todo secondaire
+
+- implementer l'installation d'un hook pre-commit
+- implemeter la commande :hello
+- integrer worfklow phpstan maison
+- intégration workflow github - https://github.com/PrestaShopCorp/ pas mal d'actions, voir aussi celle de presta (sonst les mêmes ?) (comme https://github.com/PrestaShop/github-webhook-parser)
+- ugrade d'un package
+- ajouter ref à la page https://devdocs.prestashop.com/1.7/modules/testing/ci-cd/
+
+# todo pour plus tard
+
+- comment installer phpstan ? phpstan est requi par prestashop-dev-tools mais pas inclu dedans.
+ pour le moment, il est inclu dans le composer du ce packages, c'est plus simple.
+ mais il pourrait être dans le configureTool de PrestashopDevToolsPhpStan.
+- a l'install : note sur le niveau de phpstan
+
+## Todo vraiment plus tard
+intégration phpunit
+yaml lint : https://yamllint.readthedocs.io/en/v1.2.1/quickstart.html#installing-yamllint
+task runner pour le lintage hors ide des ressources
+intégration lint js
+intégration lint html/css/scss
+intégrer validation de module avec validateur prestashop ?
+
+## Todo en attente 
+modification header-stamp pour traiter les header sans 'prestashop' dedans.
+    vendor/prestashop/header-stamp/src/Command/UpdateLicensesCommand.php:336
+
+## Mémoire
+
+pour install sans symlink : COMPOSER_MIRROR_PATH_REPOS=1 composer install
+
+# ressources
+
+lint js : .stylelintrc
+    - https://github.com/PrestaShop/stylelint-config
+    - https://github.com/PrestaShop/stylelint-browser-compatibility
+eslint : https://github.com/PrestaShop/eslint-config
+    
+
+voir https://github.com/PrestaShop/example-modules
+
+-----
+
+# v2
+
+## Install
+
+s'install en local avec :
+COMPOSER_MIRROR_PATH_REPOS=1 composer require --dev sebsept/ps_dev_base:2.x-dev
+ou
+COMPOSER_MIRROR_PATH_REPOS=1 composer require --dev sebsept/ps_dev_base:dev-pre-commit-hook
+COMPOSER_MIRROR_PATH_REPOS=1 composer require --dev sebsept/ps_dev_base:dev-auto_config_phpstan
+en ayant ajouté ça au composer :
+
+  "repositories": [
+    {
+      "type": "path",
+      "url": "/home/http/perso/prestashop/examplemodule",
+      "package": {
+        "name": "sebsept/ps_dev_base"
+      }
+    }
+  ]
+
+
+
+prestashop/php-dev-tools
+Commande init de php-dev-tools copie dossier /templates/phpstan/ dans tests/phpstan
+Contient le fichier de config phpstan.neon, qui inclue lui-même un autre fichier de config du package
+
