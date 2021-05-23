@@ -80,10 +80,13 @@ Autoinstallation provided by this package.
 
 ### fill-indexes
 
-`composer psdt:fill-indexes`
+`composer psdt:fill-indexes [--check-only]`
 
 Add the missing index.php files on each folder.
 Existing index.php files are not overriden.
+
+`--check-only` option only list the missing index.php files without adding them.  
+This option is usefull for running in the git's pre-commit hook.
 
 This is a security requirement of Prestashop to avoid the contents to be listed.
 
@@ -94,7 +97,7 @@ My replacement is simpler and doesn't require additionnal dependencies.
 
 ### Git Pre-commit hook installer
 
-`composer psdt:install-precommit-hook`
+`composer psdt:install-precommit-hook [--reconfigure]`
 
 - add file `precommit.sh`
 - symlink it to `.git/hooks/pre-commit`
@@ -103,8 +106,11 @@ My replacement is simpler and doesn't require additionnal dependencies.
 
 Before a commit is performed the composer script `pre-commit` will be triggered and must succeed (return 0), otherwise the commit is aborted.
 
+The commands in composer `pre-commit` script hook are provided by command implementing the `PreCommitRegistrableCommand` interface.  
+This is currently `phpstan`, `php-cs-fixer` and `fill-indexes`
+
 You can tweak the script by just editing the composer script.  
-You can run the `composer psdt:install-precommit-hook` or `composer run-script pre-commit` to predict if commit will fail or not. 
+You can run the `composer psdt:install-precommit-hook` (or `composer run-script pre-commit`) to predict if commit will fail or not. 
 
 ## Installation
 
