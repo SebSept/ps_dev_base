@@ -89,6 +89,8 @@ HELP
         foreach ($this->getDirectoryIterator() as $fileInfo) {
             $this->addIndex($fileInfo);
         }
+        // also at the root - I haven't found a way to include it in the iterator :/
+        $this->addIndex(new \SplFileInfo($this->getcwd()));
     }
 
     private function addIndex(\SplFileInfo $splFileInfo): void
@@ -107,6 +109,8 @@ HELP
             $indexPhpPath = $fileInfo->getPathname() . '/index.php';
             $this->fs->exists($indexPhpPath) ?: array_push($missingIndexFiles, $indexPhpPath);
         }
+        // plus index.php at root
+        $this->fs->exists($this->getcwd() . '/index.php') ?: array_push($missingIndexFiles, './index.php');
 
         if (empty($missingIndexFiles)) {
             $this->getIO()->write('Good : no missing index files.');
@@ -114,9 +118,13 @@ HELP
             return 0;
         }
 
-        $this->getIO()->write(':( Missing index.php files.');
+        $this->getIO()->write('<fg=red>✗ Missing index.php files.</>');
+        $this->getIO()->write('Missing index.php : ', true, IOInterface::VERBOSE);
         $this->getIO()->write($missingIndexFiles, true, IOInterface::VERBOSE);
-        $this->getIO()->write(['Use <info>-v</info> option to list missing files', 'Remove <info>--check-only</info> option to add missing files.']);
+        $this->getIO()->write([
+            sprintf('Run <info>composer psdt:%s --check-only -v</info> option to list missing files', $this->getName()),
+            sprintf('Or run <info>composer psdt:%s</info> to add missing files.', $this->getName()),
+        ]);
 
         return 1;
     }
@@ -144,6 +152,8 @@ HELP
         return (new Finder())
             ->in($this->getcwd())
             ->directories()
+            ->ignoreDotFiles(false)
+            ->ignoreVCS(true)
             ->exclude('vendor')
             ->getIterator();
     }
