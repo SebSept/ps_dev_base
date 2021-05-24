@@ -22,6 +22,7 @@ namespace SebSept\PsDevToolsPlugin\Composer;
 
 use Composer\Plugin\Capability\CommandProvider;
 use SebSept\PsDevToolsPlugin\Command\PrestashopDevTools\PrestashopDevToolsCsFixer;
+use SebSept\PsDevToolsPlugin\Command\PrestashopDevTools\PrestashopDevToolsHeaderStamp;
 use SebSept\PsDevToolsPlugin\Command\PrestashopDevTools\PrestashopDevToolsPhpStan;
 use SebSept\PsDevToolsPlugin\Command\SebSept\HelloCommand;
 use SebSept\PsDevToolsPlugin\Command\SebSept\IndexPhpFiller;
@@ -37,6 +38,7 @@ final class PsDevToolsCommandProvider implements CommandProvider
             new PrestashopDevToolsCsFixer(),
             new IndexPhpFiller(),
             new PrecommitHook(),
+            new PrestashopDevToolsHeaderStamp(),
             ];
     }
 }

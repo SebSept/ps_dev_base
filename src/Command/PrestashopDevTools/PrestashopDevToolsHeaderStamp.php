@@ -20,7 +20,9 @@ declare(strict_types=1);
 
 namespace SebSept\PsDevToolsPlugin\Command\PrestashopDevTools;
 
-final class PrestashopDevToolsHeaderStamp extends PrestashopDevTools
+use SebSept\PsDevToolsPlugin\Command\ComposerPackageCommand;
+
+final class PrestashopDevToolsHeaderStamp extends ComposerPackageCommand
 {
     private const HEADERSTAMP_FILE = '.header_stamp.txt';
     private const HEADERSTAMP_UNCHANGED_MARKER = 'This small piece of text marks the fact this file havn\'t been customized';
@@ -30,10 +32,28 @@ final class PrestashopDevToolsHeaderStamp extends PrestashopDevTools
         return 'header-stamp';
     }
 
+    public function getPackageName(): ?string
+    {
+        return 'prestashop/header-stamp';
+    }
+
+    public function getPackageVersionConstraint(): ?string
+    {
+        return '^2.0';
+    }
+
+    protected function configure(): void
+    {
+        $this->setName($this->getComposerScriptName());
+        parent::configure();
+    }
+
     public function isToolConfigured(): bool
     {
+        var_dump('inst : ' . $this->isPackageInstalled());
         // @todo add output
-        return $this->isComposerScriptDefined()
+        return $this->isPackageInstalled()
+            && $this->isComposerScriptDefined()
             && $this->headerStampFileExists()
             && $this->isHeaderStampFileCustomized();
     }
