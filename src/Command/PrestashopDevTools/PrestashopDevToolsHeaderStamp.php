@@ -39,7 +39,7 @@ final class PrestashopDevToolsHeaderStamp extends ComposerPackageCommand
 
     public function getPackageVersionConstraint(): ?string
     {
-        return '^2.0';
+        return '* || ^2.0'; // 2.0 is ok but in case  prestashop/php-dev-tools changes it's requirements...
     }
 
     protected function configure(): void
@@ -50,10 +50,7 @@ final class PrestashopDevToolsHeaderStamp extends ComposerPackageCommand
 
     public function isToolConfigured(): bool
     {
-        var_dump('inst : ' . $this->isPackageInstalled());
-        // @todo add output
-        return $this->isPackageInstalled()
-            && $this->isComposerScriptDefined()
+        return $this->isComposerScriptDefined()
             && $this->headerStampFileExists()
             && $this->isHeaderStampFileCustomized();
     }
