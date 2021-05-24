@@ -28,7 +28,7 @@ use Symfony\Component\Process\Process;
 
 final class PrestashopDevToolsPhpStan extends PrestashopDevTools implements PreCommitRegistrableCommand
 {
-    const PHPSTAN_CONFIGURATION_FILE = '/phpstan.neon';
+    private const PHPSTAN_CONFIGURATION_FILE = '/phpstan.neon';
 
     protected function configure(): void
     {
