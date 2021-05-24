@@ -33,9 +33,9 @@ use Symfony\Component\Filesystem\Filesystem;
 
 final class PrecommitHook extends ScriptCommand // implements ConfigurableCommand
 {
-    const SOURCE_PRECOMMIT_FILE = __DIR__ . '/../../../resources/precommit.sh';
-    const PRECOMMIT_FILE = 'precommit.sh';
-    const PRECOMMIT_HOOK_FILE = '.git/hooks/pre-commit';
+    private const SOURCE_PRECOMMIT_FILE = __DIR__ . '/../../../resources/precommit.sh';
+    private const PRECOMMIT_FILE = 'precommit.sh';
+    private const PRECOMMIT_HOOK_FILE = '.git/hooks/pre-commit';
 
     /** @var Filesystem */
     private $fs;

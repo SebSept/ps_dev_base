@@ -32,7 +32,7 @@ use Symfony\Component\Finder\Finder;
 
 final class IndexPhpFiller extends ScriptCommand implements PreCommitRegistrableCommand
 {
-    const SOURCE_INDEX_FILE = '/../../../resources/index.php';
+    private const SOURCE_INDEX_FILE = '/../../../resources/index.php';
 
     /** @var Filesystem */
     private $fs;

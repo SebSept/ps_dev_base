@@ -27,7 +27,7 @@ use Symfony\Component\Process\Process;
 
 final class PrestashopDevToolsCsFixer extends PrestashopDevTools implements PreCommitRegistrableCommand
 {
-    const PHP_CS_CONFIGURATION_FILE = '/.php_cs.dist';
+    private const PHP_CS_CONFIGURATION_FILE = '/.php_cs.dist';
 
     protected function configure(): void
     {
