@@ -22,8 +22,10 @@ namespace SebSept\PsDevToolsPlugin\Command\SebSept;
 
 use Composer\IO\IOInterface;
 use Exception;
+use RuntimeException;
 use SebSept\PsDevToolsPlugin\Command\Contract\PreCommitRegistrableCommand;
 use SebSept\PsDevToolsPlugin\Command\ScriptCommand;
+use SplFileInfo;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -90,10 +92,10 @@ HELP
             $this->addIndex($fileInfo);
         }
         // also at the root - I haven't found a way to include it in the iterator :/
-        $this->addIndex(new \SplFileInfo($this->getcwd()));
+        $this->addIndex(new SplFileInfo($this->getcwd()));
     }
 
-    private function addIndex(\SplFileInfo $splFileInfo): void
+    private function addIndex(SplFileInfo $splFileInfo): void
     {
         $target = sprintf('%s/%s', $splFileInfo->getRealPath(), 'index.php');
         $fancyName = str_replace($this->getcwd(), '.', $target);
@@ -138,7 +140,7 @@ HELP
     {
         $cwd = getcwd();
         if (false === $cwd) {
-            throw new \RuntimeException('getcwd() returned false. Failed to determine the current directory.');
+            throw new RuntimeException('getcwd() returned false. Failed to determine the current directory.');
         }
 
         return $cwd;

@@ -72,10 +72,9 @@ HELP
             $reconfigure = $input->getOption('reconfigure');
             $preCommitHookFileRelativePath = str_replace(__DIR__ . DIRECTORY_SEPARATOR, '', self::PRECOMMIT_HOOK_FILE);
 
-            if ($reconfigure) {
-                $composerScriptIsDefined = $precommitFileExists = $precommitFileIsSymlinked = $precommitFileIsExecutable = $readyToRun
+            $composerScriptIsDefined = $precommitFileExists = $precommitFileIsSymlinked = $precommitFileIsExecutable = $readyToRun
                     = false;
-            } else {
+            if (!$reconfigure) {
                 $composerScriptIsDefined = $this->isComposerScriptDefined();
                 $precommitFileExists = $this->precommitFileExists();
                 $precommitFileIsSymlinked = $this->isPrecommitFileSymlinked();

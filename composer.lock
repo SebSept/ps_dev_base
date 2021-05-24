@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "30a30444e2d64d1757774b60fe19f97c",
+    "content-hash": "6dc9974a87ef07c1b0212f14f6e818a9",
     "packages": [
         {
             "name": "phpstan/phpstan",
@@ -860,6 +860,63 @@
             "time": "2020-05-27T16:41:55+00:00"
         },
         {
+            "name": "pdepend/pdepend",
+            "version": "2.9.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pdepend/pdepend.git",
+                "reference": "1632f0cee84512ffd6dde71e58536b3b06528c41"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pdepend/pdepend/zipball/1632f0cee84512ffd6dde71e58536b3b06528c41",
+                "reference": "1632f0cee84512ffd6dde71e58536b3b06528c41",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.7",
+                "symfony/config": "^2.3.0|^3|^4|^5",
+                "symfony/dependency-injection": "^2.3.0|^3|^4|^5",
+                "symfony/filesystem": "^2.3.0|^3|^4|^5"
+            },
+            "require-dev": {
+                "easy-doc/easy-doc": "0.0.0|^1.2.3",
+                "gregwar/rst": "^1.0",
+                "phpunit/phpunit": "^4.8.36|^5.7.27",
+                "squizlabs/php_codesniffer": "^2.0.0"
+            },
+            "bin": [
+                "src/bin/pdepend"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PDepend\\": "src/main/php/PDepend"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Official version of pdepend to be handled with Composer",
+            "support": {
+                "issues": "https://github.com/pdepend/pdepend/issues",
+                "source": "https://github.com/pdepend/pdepend/tree/2.9.1"
+            },
+            "funding": [
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/pdepend/pdepend",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-04-15T21:36:28+00:00"
+        },
+        {
             "name": "php-cs-fixer/diff",
             "version": "v1.3.1",
             "source": {
@@ -913,6 +970,89 @@
                 "source": "https://github.com/PHP-CS-Fixer/diff/tree/v1.3.1"
             },
             "time": "2020-10-14T08:39:05+00:00"
+        },
+        {
+            "name": "phpmd/phpmd",
+            "version": "2.10.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpmd/phpmd.git",
+                "reference": "bd5ef43d1dcaf7272605027c959c1c5ff3761f7a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpmd/phpmd/zipball/bd5ef43d1dcaf7272605027c959c1c5ff3761f7a",
+                "reference": "bd5ef43d1dcaf7272605027c959c1c5ff3761f7a",
+                "shasum": ""
+            },
+            "require": {
+                "composer/xdebug-handler": "^1.0 || ^2.0",
+                "ext-xml": "*",
+                "pdepend/pdepend": "^2.9.1",
+                "php": ">=5.3.9"
+            },
+            "require-dev": {
+                "easy-doc/easy-doc": "0.0.0 || ^1.3.2",
+                "ext-json": "*",
+                "ext-simplexml": "*",
+                "gregwar/rst": "^1.0",
+                "mikey179/vfsstream": "^1.6.8",
+                "phpunit/phpunit": "^4.8.36 || ^5.7.27",
+                "squizlabs/php_codesniffer": "^2.0"
+            },
+            "bin": [
+                "src/bin/phpmd"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PHPMD\\": "src/main/php"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Manuel Pichler",
+                    "email": "github@manuel-pichler.de",
+                    "homepage": "https://github.com/manuelpichler",
+                    "role": "Project Founder"
+                },
+                {
+                    "name": "Marc Würth",
+                    "email": "ravage@bluewin.ch",
+                    "homepage": "https://github.com/ravage84",
+                    "role": "Project Maintainer"
+                },
+                {
+                    "name": "Other contributors",
+                    "homepage": "https://github.com/phpmd/phpmd/graphs/contributors",
+                    "role": "Contributors"
+                }
+            ],
+            "description": "PHPMD is a spin-off project of PHP Depend and aims to be a PHP equivalent of the well known Java tool PMD.",
+            "homepage": "https://phpmd.org/",
+            "keywords": [
+                "mess detection",
+                "mess detector",
+                "pdepend",
+                "phpmd",
+                "pmd"
+            ],
+            "support": {
+                "irc": "irc://irc.freenode.org/phpmd",
+                "issues": "https://github.com/phpmd/phpmd/issues",
+                "source": "https://github.com/phpmd/phpmd/tree/2.10.1"
+            },
+            "funding": [
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/phpmd/phpmd",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-05-11T17:16:16+00:00"
         },
         {
             "name": "psr/container",
@@ -1224,6 +1364,84 @@
             "time": "2020-07-07T18:42:57+00:00"
         },
         {
+            "name": "symfony/config",
+            "version": "v5.2.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/config.git",
+                "reference": "8dfa5f8adea9cd5155920069224beb04f11d6b7e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/config/zipball/8dfa5f8adea9cd5155920069224beb04f11d6b7e",
+                "reference": "8dfa5f8adea9cd5155920069224beb04f11d6b7e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "symfony/deprecation-contracts": "^2.1",
+                "symfony/filesystem": "^4.4|^5.0",
+                "symfony/polyfill-ctype": "~1.8",
+                "symfony/polyfill-php80": "^1.15"
+            },
+            "conflict": {
+                "symfony/finder": "<4.4"
+            },
+            "require-dev": {
+                "symfony/event-dispatcher": "^4.4|^5.0",
+                "symfony/finder": "^4.4|^5.0",
+                "symfony/messenger": "^4.4|^5.0",
+                "symfony/service-contracts": "^1.1|^2",
+                "symfony/yaml": "^4.4|^5.0"
+            },
+            "suggest": {
+                "symfony/yaml": "To use the yaml reference dumper"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Config\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Helps you find, load, combine, autofill and validate configuration values of any kind",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/config/tree/v5.2.8"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-05-07T13:41:16+00:00"
+        },
+        {
             "name": "symfony/console",
             "version": "v5.2.6",
             "source": {
@@ -1319,6 +1537,93 @@
                 }
             ],
             "time": "2021-03-28T09:42:18+00:00"
+        },
+        {
+            "name": "symfony/dependency-injection",
+            "version": "v5.2.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/dependency-injection.git",
+                "reference": "2761ca2f7e2f41af3a45951e1ce8c01f121245eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/2761ca2f7e2f41af3a45951e1ce8c01f121245eb",
+                "reference": "2761ca2f7e2f41af3a45951e1ce8c01f121245eb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "psr/container": "^1.0",
+                "symfony/deprecation-contracts": "^2.1",
+                "symfony/polyfill-php80": "^1.15",
+                "symfony/service-contracts": "^1.1.6|^2"
+            },
+            "conflict": {
+                "symfony/config": "<5.1",
+                "symfony/finder": "<4.4",
+                "symfony/proxy-manager-bridge": "<4.4",
+                "symfony/yaml": "<4.4"
+            },
+            "provide": {
+                "psr/container-implementation": "1.0",
+                "symfony/service-implementation": "1.0|2.0"
+            },
+            "require-dev": {
+                "symfony/config": "^5.1",
+                "symfony/expression-language": "^4.4|^5.0",
+                "symfony/yaml": "^4.4|^5.0"
+            },
+            "suggest": {
+                "symfony/config": "",
+                "symfony/expression-language": "For using expressions in service container configuration",
+                "symfony/finder": "For using double-star glob patterns or when GLOB_BRACE portability is required",
+                "symfony/proxy-manager-bridge": "Generate service proxies to lazy load them",
+                "symfony/yaml": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\DependencyInjection\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Allows you to standardize and centralize the way objects are constructed in your application",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/dependency-injection/tree/v5.2.9"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-05-16T13:07:46+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",

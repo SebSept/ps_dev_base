@@ -22,7 +22,8 @@
   },
   "require-dev": {
     "composer/composer": "^2.0",
-    "friendsofphp/php-cs-fixer": "^2.18"
+    "friendsofphp/php-cs-fixer": "^2.18",
+    "phpmd/phpmd": "^2.10.1"
   },
   "config": {
     "preferred-install": "dist",
