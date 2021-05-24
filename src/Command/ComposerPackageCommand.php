@@ -22,7 +22,6 @@ namespace SebSept\PsDevToolsPlugin\Command;
 
 use Composer\Package\Link;
 use Exception;
-use RuntimeException;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -76,10 +75,6 @@ abstract class ComposerPackageCommand extends BaseCommand
             }
 
             $this->runComposerScript($output);
-        } catch (RuntimeException $exception) {
-            $this->getIO()->alert($exception->getMessage());
-
-            return 7;
         } catch (Exception $exception) {
             $this->getIO()->critical($exception->getMessage());
 
