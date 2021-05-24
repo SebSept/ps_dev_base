@@ -88,7 +88,7 @@ HELP
         }
 
         $this->getIO()->write('<bg=green>successful</bg=green>');
-        $this->getIO()->info(' in fact, it\'s only PROBABLY successfull.');
+        $this->getIO()->info(' in fact, it\'s only PROBABLY successful.');
         $this->getIO()->info(' https://github.com/PrestaShop/php-dev-tools/issues/58');
 
         $this->addComposerScript(['php-cs-fixer fix']);
