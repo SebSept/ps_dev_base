@@ -31,7 +31,7 @@ final class PrestashopDevToolsCsFixer extends PrestashopDevTools implements PreC
 
     protected function configure(): void
     {
-        $this->setName('php-cs-fixer');
+        $this->setName($this->getComposerScriptName());
         $this->setDescription('php-cs-fixer with Prestashop standards.');
         $this->setHelp(
             $this->getDescription() . <<<'HELP'

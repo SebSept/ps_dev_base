@@ -32,7 +32,7 @@ final class PrestashopDevToolsPhpStan extends PrestashopDevTools implements PreC
 
     protected function configure(): void
     {
-        $this->setName('phpstan');
+        $this->setName($this->getComposerScriptName());
         $this->setDescription('phpstan with Prestashop standards.');
         $this->setHelp(
             $this->getDescription() . <<<'HELP'

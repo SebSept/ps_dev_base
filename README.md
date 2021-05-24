@@ -43,7 +43,7 @@ You can even take an additionnal step by [defining an alias](https://duckduckgo.
 * [psdt:php-cs-fixer](#fill-indexes)
 * [psdt:phpstan](#phpstan)
 * [psdt:fill-indexes](#fill-indexes)
-* [psdt:install-precommit-hook](#git-pre-commit-hook-installer) (not supported on Windows yet)
+* [psdt:pre-commit](#git-pre-commit-hook-installer) (not supported on Windows yet)
 
 ### php-cs-fixer
 
@@ -60,7 +60,7 @@ Allows complying with the [Prestashop standards](https://devdocs.prestashop.com/
 On the first run (or when `--reconfigure` option is used):
 * the _PrestaShop/php-dev-tools_ package will be installed if needed.
 * _.php_cs_ file will be (re)created with the Prestashop standard styles. (Destructive operation, get your files under version control!)
-* the composer script _csfix_ will be added. So you can invoke this command with `composer csfix`
+* the composer script _php-cs-fixer_ will be added. So you can invoke this command with `composer php-cs-fixer`
 
 The next runs will run the fixer. All files will be formated according to the Prestashop standard.
 
@@ -100,7 +100,7 @@ My replacement is simpler and doesn't require additionnal dependencies.
 
 ### Git Pre-commit hook installer
 
-`composer psdt:install-precommit-hook [--reconfigure]`
+`composer psdt:pre-commit [--reconfigure]`
 
 - `precommit.sh` file is added
 - symlink it to `.git/hooks/pre-commit` is created
@@ -113,7 +113,7 @@ The commands in composer `pre-commit` script hook are provided by command implem
 This is currently `phpstan`, `php-cs-fixer` and `fill-indexes`
 
 You can tweak the script by just editing the composer script.  
-You can run the `composer psdt:install-precommit-hook` (or `composer run-script pre-commit`) to predict if commit will fail or not. 
+You can run the `composer psdt:pre-commit` (or `composer run-script pre-commit`) to predict if commit will fail or not. 
 
 ## Installation
 

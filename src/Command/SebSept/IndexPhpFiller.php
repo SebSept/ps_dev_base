@@ -58,7 +58,7 @@ HELP
 
     public function getComposerScriptName(): string
     {
-        return 'fill-index';
+        return 'fill-indexes';
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
