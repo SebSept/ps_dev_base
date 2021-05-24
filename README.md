@@ -35,7 +35,7 @@ This package is composer plugin, it adds new commmands to composer command line 
 These commands are under the namespace `psdt` (PrestaShop Developement Tools).
 
 The first time a command is run, a composer script is also added.
-For example, the php-cs-fixer can be invoked with `composer csfix` this is a bit shorter.
+For example, the php-cs-fixer can be invoked with `composer psdt:php-cs-fixer`.  
 You can even take an additionnal step by [defining an alias](https://duckduckgo.com/?q=linux+alias&t=github&ia=web).
 
 ## Provided commands
@@ -49,8 +49,13 @@ You can even take an additionnal step by [defining an alias](https://duckduckgo.
 
 `composer psdt:php-cs-fixer [--reconfigure]`
 
-Format php files for complying with the Prestashop standards.
+Formats php files for complying with the Prestashop standards.
 This allows consistent code base.
+
+Provided by [PrestaShop/php-dev-tools/](https://github.com/PrestaShop/php-dev-tools/).  
+Autoinstallation provided by this package.
+
+Allows complying with the [Prestashop standards](https://devdocs.prestashop.com/1.7/development/coding-standards/).
 
 On the first run (or when `--reconfigure` option is used):
 * the _PrestaShop/php-dev-tools_ package will be installed if needed.
@@ -59,27 +64,22 @@ On the first run (or when `--reconfigure` option is used):
 
 The next runs will run the fixer. All files will be formated according to the Prestashop standard.
 
-Provided by [PrestaShop/php-dev-tools/](https://github.com/PrestaShop/php-dev-tools/).  
-Autoinstallation provided by this package.
-
-Allows complying with the [Prestashop standards](https://devdocs.prestashop.com/1.7/development/coding-standards/).
-
 ### phpstan
 
 `composer psdt:phpstan [--reconfigure]`
 
 Run phpstan configured with  [Prestashop standards](https://devdocs.prestashop.com/1.7/development/coding-standards/) against a PrestaShop installation.
 
+Provided by [PrestaShop/php-dev-tools/](https://github.com/PrestaShop/php-dev-tools/).  
+Autoinstallation provided by this package.
+
 The first run or `composer psdt:phpstan --reconfigure` do : 
-  - install `prestashop/prestashop-dev-tools` if needed
+  - package `prestashop/prestashop-dev-tools` will be installed (if needed)
   - creates/overrides the phpstan.neon configuration with Prestashop standards.
   - guess the \_PS_ROOT_DIR_ and asks for confirmation (or you can provide another path) (this path is needed for analyse)
   - install a composer script `phpstan`
 
 The next runs will trigger `composer psdt:phpstan`
-
-Provided by [PrestaShop/php-dev-tools/](https://github.com/PrestaShop/php-dev-tools/).  
-Autoinstallation provided by this package.
 
 ### fill-indexes
 
@@ -102,10 +102,10 @@ My replacement is simpler and doesn't require additionnal dependencies.
 
 `composer psdt:install-precommit-hook [--reconfigure]`
 
-- add file `precommit.sh`
-- symlink it to `.git/hooks/pre-commit`
-- make it executable
-- add a composer script `pre-commit`
+- `precommit.sh` file is added
+- symlink it to `.git/hooks/pre-commit` is created
+- symlink is made executable
+- composer script `pre-commit` is added
 
 Before a commit is performed the composer script `pre-commit` will be triggered and must succeed (return 0), otherwise the commit is aborted.
 
