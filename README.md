@@ -14,8 +14,8 @@ composer list psdt
 
 ## Requirements 
 
-The single requirement is just to have composer 2 installed (not composer 1.x).
-If you do not have composer, you can leave this page and [start learning it](https://getcomposer.org/).
+- Have composer 2 installed (not composer 1.x). If you do not have composer, it's time to [start learning it](https://getcomposer.org/).
+- Your module must require php >= 7.2.5
 
 For easier use, I highly suggest to use command line autocompletion for composer.  
 There's a couple options available, [this one](https://github.com/bamarni/symfony-console-autocomplete) is [recommanded by composer](https://getcomposer.org/doc/03-cli.md#command-line-completion).
