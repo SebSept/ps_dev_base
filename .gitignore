@@ -2,7 +2,7 @@
 vendor
 
 ; dev tools files
-.php_cs.cache
 notes
 tools
 .todo
+/.php-cs-fixer.cache

@@ -24,6 +24,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '${{ matrix.php-version }}'
+          tools: composer:v2, phive
 
       - run: |
           composer --version | grep '2\.[0-9]' --silent || (echo 'version de composer invalide';composer --version;exit 1 )

@@ -21,9 +21,7 @@
     "phpstan/phpstan": "^0.12.83"
   },
   "require-dev": {
-    "composer/composer": "^2.0",
-    "friendsofphp/php-cs-fixer": "^2.18",
-    "phpmd/phpmd": "^2.10.1"
+    "composer/composer": "^2.0"
   },
   "config": {
     "preferred-install": "dist",
@@ -32,15 +30,16 @@
     }
   },
   "scripts": {
+    "post-update-cmd": "phive update",
     "php-cs-fixer": [
-      "vendor/bin/php-cs-fixer fix"
+      "tools/php-cs-fixer fix"
     ],
     "phpstan": [
-      "vendor/bin/phpstan analyse"
+      "tools/phpstan analyse"
     ],
     "fix": "@php-cs-fixer",
     "pre-commit": [
-      "vendor/bin/php-cs-fixer fix --dry-run --ansi",
+      "tools/php-cs-fixer fix --dry-run --ansi",
       "@phpstan --ansi",
       "composer validate"
     ]
