@@ -3,11 +3,14 @@
 This package provides **tools for [Prestashop](https://github.com/prestashop/prestashop) module development**.  
 It's made to **remove the burden of intallation and configuration of essential development tools**. 
 
+![code quality](https://github.com/SebSept/ps_dev_base/actions/workflows/phpstan_and_style.yml/badge.svg)
+
 Quik start : 
 ```shell
 composer require --dev sebsept/ps_dev_base
 composer list psdt
 ```
+
 
 ## Requirements 
 
