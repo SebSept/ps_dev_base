@@ -21,9 +21,11 @@ declare(strict_types=1);
 namespace SebSept\PsDevToolsPlugin\Command\PrestashopDevTools;
 
 use SebSept\PsDevToolsPlugin\Command\ComposerPackageCommand;
+use Symfony\Component\Filesystem\Filesystem;
 
 final class PrestashopDevToolsHeaderStamp extends ComposerPackageCommand
 {
+    private const SOURCE_HEADERSTAMP_FILE = __DIR__ . '/../../../resources/.header_stamp.txt';
     private const HEADERSTAMP_FILE = '.header_stamp.txt';
     private const HEADERSTAMP_UNCHANGED_MARKER = 'This small piece of text marks the fact this file havn\'t been customized';
 
@@ -57,18 +59,16 @@ final class PrestashopDevToolsHeaderStamp extends ComposerPackageCommand
 
     public function configureTool(): void
     {
-        /*
-         * Some refactoring is needed before implementing this, probably.
-         *
-         * - The header-stamp package is a requirement of prestashop/php-dev-tools.
-         *   - We can rely on the fact that prestashop/php-dev-tools will still include it. :/
-         *   - Or write a command that doesn't extends \...\Command\PrestashopDevTools\PrestashopDevTools
-         *      - but in this case we should check if \...\ComposerPackageCommand::getInstalledDevRequires
-         *      returns the correct response if headerstamp is installed by prestashop/php-dev-tools
-         *   - or implements something that can check for multiple composer pachages, not only one.
-         * - By the way, getInstalledDevRequires may better check for package provided for normal use And dev use (?)
-         */
-        throw new \Exception('Implement me');
+        // copyHeaderStampFile and add a marker to know if file was customized.
+        $this->getIO()->write('Preparing hearder stamp file ... ', false);
+        $fs = new Filesystem();
+        $fs->copy(self::SOURCE_HEADERSTAMP_FILE, self::HEADERSTAMP_FILE, true);
+        file_put_contents(self::HEADERSTAMP_FILE, self::HEADERSTAMP_UNCHANGED_MARKER, FILE_APPEND);
+        $this->getIO()->write('<info>OK</info>');
+
+        $this->addComposerScript([sprintf("header-stamp --exclude=vendor,node_modules --license='%s'", self::HEADERSTAMP_FILE)]);
+
+        throw new \RuntimeException(sprintf('You must now edit %s file.', self::HEADERSTAMP_FILE));
     }
 
     private function headerStampFileExists(): bool
@@ -83,6 +83,6 @@ final class PrestashopDevToolsHeaderStamp extends ComposerPackageCommand
             throw new \Exception(sprintf('Failed to read headerstamp contents on file %s', self::HEADERSTAMP_FILE));
         }
 
-        return false !== strpos($headerStampContents, self::HEADERSTAMP_UNCHANGED_MARKER);
+        return false == strpos($headerStampContents, self::HEADERSTAMP_UNCHANGED_MARKER);
     }
 }

@@ -44,6 +44,10 @@ abstract class ComposerPackageCommand extends BaseCommand
 
     abstract public function isToolConfigured(): bool;
 
+    /**
+     * it configures the tool.
+     * It doesn't do checks, only perform addComposerScript(), file copy, etc.
+     */
     abstract public function configureTool(): void;
 
     final protected function execute(InputInterface $input, OutputInterface $output): int
