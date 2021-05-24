@@ -30,6 +30,7 @@
     }
   },
   "scripts": {
+    "post-install-cmd": "phive install",
     "post-update-cmd": "phive update",
     "php-cs-fixer": [
       "tools/php-cs-fixer fix"
