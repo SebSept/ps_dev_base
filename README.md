@@ -1,3 +1,5 @@
+> This branch is stopped.  Things now happend on the [main branch](https://github.com/SebSept/ps_dev_base/tree/main).
+
 # Prestashop Dev Base
 
 This package provides **tools for [Prestashop](https://github.com/prestashop/prestashop) module development**.  
