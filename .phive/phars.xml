@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phive xmlns="https://phar.io/phive">
-  <phar name="phploc" version="^7.0.2" installed="7.0.2" location="./tools/phploc" copy="false"/>
   <phar name="friendsofphp/php-cs-fixer" version="^3.0.0" installed="3.0.0" location="./tools/php-cs-fixer" copy="false"/>
   <phar name="phpmd" version="^2.9.1" installed="2.9.1" location="./tools/phpmd" copy="false"/>
   <phar name="phpstan" version="^0.12.88" installed="0.12.88" location="./tools/phpstan" copy="false"/>
