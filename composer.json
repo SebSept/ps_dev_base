@@ -30,7 +30,7 @@
     }
   },
   "scripts": {
-    "post-install-cmd": "phive install --trust-gpg-keys E82B2FB314E9906E, 0F9684B8B16B7AB0, CF1A108D0E7AE720",
+    "post-install-cmd": "phive install --trust-gpg-keys E82B2FB314E9906E,0F9684B8B16B7AB0,CF1A108D0E7AE720",
     "post-update-cmd": "phive update",
     "php-cs-fixer": [
       "tools/php-cs-fixer fix"
