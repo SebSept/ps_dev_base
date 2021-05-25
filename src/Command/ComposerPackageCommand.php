@@ -132,7 +132,7 @@ abstract class ComposerPackageCommand extends BaseCommand
             return [];
         }
         $devRequires = array_map(
-            function (Link $require) {
+            static function (Link $require) {
                 return ['version' => $require->getPrettyConstraint(), 'package' => $require->getTarget()];
             },
             $this->getComposer()->getPackage()->getDevRequires()

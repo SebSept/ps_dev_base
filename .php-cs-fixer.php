@@ -19,7 +19,10 @@ return $config->setRules([
     'concat_space' => [
         'spacing' => 'one'
     ],
-    'final_class' => true
+    'final_class' => true,
+    'static_lambda' => true,
+    'return_assignment' => true,
+    'phpdoc_var_annotation_correct_order' => true,
 ])
     ->setFinder($finder)
     ;
