@@ -40,8 +40,6 @@
     ],
     "fix": "@php-cs-fixer",
     "pre-commit": [
-      "tools/php-cs-fixer fix --dry-run --ansi",
-      "@phpstan --ansi",
       "composer validate"
     ]
   },
