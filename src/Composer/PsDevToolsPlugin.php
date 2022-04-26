@@ -27,17 +27,20 @@ use Composer\Installer\PackageEvent;
 use Composer\IO\IOInterface;
 use Composer\Plugin\Capable;
 use Composer\Plugin\PluginInterface;
+use Composer\Script\Event;
+use Symfony\Component\Process\Process;
 
 final class PsDevToolsPlugin implements PluginInterface, Capable, EventSubscriberInterface
 {
+    /** @var bool */
+    private $isFirstRun = false;
+
     public function activate(Composer $composer, IOInterface $io): void
     {
-        $io->debug('Mon plugin est actif');
     }
 
     public function deactivate(Composer $composer, IOInterface $io): void
     {
-        $io->debug('Mon plugin est inactif');
     }
 
     public function uninstall(Composer $composer, IOInterface $io): void
@@ -58,17 +61,39 @@ final class PsDevToolsPlugin implements PluginInterface, Capable, EventSubscribe
     }
 
     /**
-     * @return array<string, string>
+     * @return array<string, string|array<int, array<int, string>>>
      */
     public static function getSubscribedEvents(): array
     {
         return [
-            'post-package-install' => 'hello',
+            'post-package-install' => 'preparefirstRun',
+            'post-update-cmd' => 'firstRun', // just to be the last output.
         ];
     }
 
-    public function hello(PackageEvent $event): void
+    public function firstRun(Event $event): void
     {
+        if (!$this->isFirstRun) {
+            return;
+        }
+
+        $event->getIO()->info(__CLASS__ . ' first run ...');
+
+        $i = new Process('composer psdt:hello'); // @phpstan-ignore-line
+        $i->enableOutput()
+            ->setTty(true)
+            ->start();
+        $i->wait();
+
+        $this->isFirstRun = false;
+    }
+
+    public function preparefirstRun(PackageEvent $event): void
+    {
+        if (!$event->getIO()->isInteractive()) {
+            return;
+        }
+
         // this happen on post-package-install so it should be an InstallOperation
         // however, for safety it's checked.
         if (!$event->getOperation() instanceof InstallOperation) {
@@ -82,9 +107,6 @@ final class PsDevToolsPlugin implements PluginInterface, Capable, EventSubscribe
             return;
         }
 
-        $event->getIO()->write('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-        $event->getIO()->write('~~ <fg=magenta>Congratulation !PsDevTool is now installed</>. ~~');
-        $event->getIO()->write('~~ run <info>composer list psdt</info> to get started.     ~~');
-        $event->getIO()->write('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+        $this->isFirstRun = true;
     }
 }

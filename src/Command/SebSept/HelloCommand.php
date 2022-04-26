@@ -34,7 +34,12 @@ final class HelloCommand extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->getIO()->write('This command show some helps for usage of this package.');
+        var_dump($this->getIO()->isInteractive());
+        $this->getIO()->write('This command show some helps for usage of this package.'); // not displayed
+        $this->getIO()->askConfirmation('oi K');
+        $this->getIO()->write('<info>ee</info>');
+        $this->getIO()->error('implement me');
+//        throw new \Exception('implement me');
 
         return 0;
     }
