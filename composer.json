@@ -18,7 +18,7 @@
     "composer-plugin-api": "^2.0",
     "php": ">=7.2.5",
     "ext-json": "*",
-    "phpstan/phpstan": "^1.8"
+    "phpstan/phpstan": "^1.9.1"
   },
   "require-dev": {
     "composer/composer": "^2.0"
